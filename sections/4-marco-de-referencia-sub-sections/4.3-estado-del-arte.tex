@@ -1,118 +1,37 @@
 \subsection{Estado del Arte}
 
-\subsubsection{Migración de plataformas Firebase hacia arquitecturas en AWS}
+\subsubsection{Arquitecturas híbridas BaaS + FaaS en aplicaciones web modernas}
 
-Como lo indica J. Michel \cite{Michael2021}, Firebase ofrece una arquitectura de dos capas, donde las aplicaciones cliente (web o móviles) interactúan directamente con servicios \textit{backend} como Firestore, Authentication y Cloud Functions. Esta simplicidad facilita el desarrollo rápido de MVPs, pero puede presentar desafíos en escalabilidad, control y flexibilidad a medida que la aplicación crece. Obsérvese la \autoref{fig:firebase_architecture}.
+La práctica contemporánea de desarrollo de aplicaciones web ha consolidado un modelo en el que múltiples servicios gestionados se combinan para soportar distintas responsabilidades del sistema, en lugar de descansar en un único proveedor o tecnología \cite{Newman2021}. En este modelo, los servicios de \textit{Backend as a Service} (BaaS) suelen utilizarse para responsabilidades horizontales bien delimitadas —autenticación, persistencia, almacenamiento—, mientras que las funciones \textit{serverless} bajo el modelo \textit{Function as a Service} (FaaS) se reservan para lógica de negocio específica, integraciones con APIs externas y procesamiento asíncrono. Esta combinación, conocida como \textit{arquitectura híbrida}, ofrece un balance pragmático entre velocidad de desarrollo (heredada del modelo BaaS) y control arquitectónico (aportado por la flexibilidad del modelo FaaS).
 
-\newcommand\firebaseArchitectureCaption{Diagrama de Arquitectura de Firebase. \hspace{1em}}
+\textcite{Michael2021} describe esta tensión en el contexto del crecimiento de \textit{startups}: Firebase ofrece una arquitectura de dos capas en la que las aplicaciones cliente interactúan directamente con servicios \textit{backend}, lo que facilita el desarrollo rápido de productos mínimos viables pero introduce desafíos de escalabilidad, control y seguridad a medida que el producto madura. Frente a este escenario, una vía habitual en la industria consiste en complementar Firebase con servicios de AWS —en particular Lambda, API Gateway, SQS, SNS y CloudWatch—, manteniendo Firebase para las responsabilidades donde sigue siendo idóneo (autenticación, base de datos documental con sincronización en tiempo real) e introduciendo AWS donde se requieren capacidades adicionales (lógica del lado del servidor controlada, observabilidad estructurada, procesamiento asíncrono escalable). Esta arquitectura híbrida es precisamente la adoptada por Paralegales.
 
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=0.7\textwidth]{img/figures/fig3-firebase-architecture.png}
-  \caption[\firebaseArchitectureCaption]{\firebaseArchitectureCaption Fuente: Tomado de \cite{Michael2021}.}
-  \label{fig:firebase_architecture}
-\end{figure}
+\subsubsection{Patrón Backend-for-Frontend: origen, evolución y adopción}
 
-En contraste, como se muestra en la \autoref{fig:amplify_architecture}, AWS adopta una arquitectura de tres capas, donde se separan de forma clara la capa de presentación, la lógica de negocio y la capa de datos. Esta organización modular permite un mayor control, escalabilidad y mantenibilidad del sistema, además de reducir significativamente el riesgo de exponer lógica de negocio crítica en el cliente.
+El patrón \textit{Backend-for-Frontend} (BFF) tiene su origen documentado en la experiencia de SoundCloud durante la transición de un monolito hacia microservicios: el equipo encontró que exponer una API genérica para múltiples clientes (web, iOS, Android) generaba acoplamiento entre ellos y degradaba la experiencia de cada uno. La solución fue construir un \textit{backend} específico por cada \textit{frontend}, optimizado para sus necesidades \cite{NewmanBFF}. \textcite{Newman2021} formaliza posteriormente el patrón en su análisis sistemático de microservicios, describiéndolo como una variante del patrón ``API Gateway'' donde, en lugar de un único gateway genérico, existe un gateway dedicado por cada tipo de cliente.
 
-En este enfoque, el cliente utiliza el SDK de AWS Amplify para comunicarse con los servicios del \textit{backend}, los cuales están implementados mediante funciones Lambda, las cuales pueden ser accedidas mediante una API REST usando Amazon API Gateway. De esta forma, se evita el acceso directo desde el frontend a las bases de datos o a la lógica sensible del negocio, incrementando la seguridad y permitiendo una evolución más controlada de la arquitectura.
+La adopción del BFF se ha extendido a empresas como Netflix, donde se utiliza para adaptar la entrega de contenido a la diversidad de dispositivos cliente, y a frameworks contemporáneos como Nuxt~3 y Next.js, que ofrecen un entorno de ejecución del lado del servidor estrechamente integrado con la capa de presentación. En estos frameworks, el BFF se materializa de manera natural mediante rutas de servidor que actúan como proxy, agregador o coordinador de llamadas a servicios subyacentes. En Paralegales, el BFF implementado sobre Nuxt~3 cumple varias funciones simultáneas: reubica lógica sensible fuera del cliente, encapsula la comunicación con servicios externos no documentados (Rama Judicial, SAMAI), centraliza el manejo de errores y autenticación, y constituye un punto natural de instrumentación para la telemetría del sistema.
 
-\newcommand\AWSDiagramaArquitecturaCaption{Diagrama de Arquitectura de AWS Amplify. \hspace{1em}}
+\subsubsection{Evolución arquitectónica incremental: Strangler Fig Pattern}
 
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=1\textwidth]{img/figures/fig4-amplify-architecture.png}
-  \caption[\AWSDiagramaArquitecturaCaption]{\AWSDiagramaArquitecturaCaption Fuente: Tomado de \cite{Michael2021}}
-  \label{fig:amplify_architecture}
-\end{figure}
+Cuando un sistema en producción presenta problemas estructurales pero no puede detenerse para una reescritura completa, la industria ha consolidado un patrón de evolución incremental conocido como \textit{Strangler Fig Pattern}, descrito por \textcite{Fowler2004Strangler}. La metáfora proviene de las higueras estranguladoras de los bosques tropicales, que crecen alrededor de un árbol huésped hasta reemplazarlo completamente sin que el ecosistema circundante perciba la transición. Aplicado al software, el patrón consiste en introducir gradualmente nuevos componentes que progresivamente asumen responsabilidades del sistema existente, hasta que este último puede ser retirado sin disrupciones.
 
-A diferencia de Firebase, donde todos los servicios están integrados dentro de una misma plataforma, AWS ofrece un enfoque más flexible y modular. Herramientas como AWS Amplify y el Amazon Cloud Development Kit (CDK) permiten definir, configurar e implementar servicios \textit{backend} de forma personalizada \cite{Michael2021}. Amplify proporciona un conjunto de herramientas para el desarrollo, incluyendo SDKs, generación automática de código y una pipeline DevOps que facilita la integración entre los servicios de AWS y las aplicaciones web o móviles \cite{Michael2021}.
+Este enfoque resulta particularmente apropiado para sistemas con base de usuarios activa, donde una migración total acarrearía riesgos operativos significativos: pérdida de datos, interrupciones del servicio, regresiones funcionales no detectadas y costos de oportunidad asociados al freezing de \textit{features} durante la transición. El \textit{Strangler Fig Pattern} permite distribuir esos riesgos a lo largo del tiempo y validar cada paso de la transformación frente a usuarios reales. La intervención descrita en este trabajo se inscribe en esta filosofía: en lugar de migrar la totalidad de Paralegales desde Firebase hacia AWS en un único movimiento, se introducen capacidades complementarias (BFF, microservicios serverless, observabilidad, IaC) que rodean el sistema existente y absorben progresivamente responsabilidades, preservando la opción de evolución futura sin imponer una sustitución inmediata del proveedor incumbente. El patrón \textit{Handler--Service--Repository} adoptado en el \textit{backend} es, de hecho, una aplicación directa de esta filosofía: aísla el motor de persistencia detrás de una abstracción que permitiría, en el futuro, sustituir Firestore por otro proveedor sin tocar la lógica de negocio.
 
-Este enfoque permite construir arquitecturas completamente adaptadas a las necesidades del proyecto, seleccionando únicamente los servicios requeridos. Además, gracias al uso de Infraestructura como Código (IaC) mediante CDK o CloudFormation, es posible versionar, reutilizar y automatizar la configuración de los recursos, mejorando la mantenibilidad y escalabilidad del sistema.
+\subsubsection{Observabilidad en arquitecturas serverless distribuidas}
 
-Por otro lado, la migración de Firebase a AWS implica identificar servicios equivalentes que ofrezcan funcionalidades similares, pero con mayor flexibilidad y escalabilidad. La \autoref{tab:aws_firebase_comparison_services} presenta la correspondencia general entre servicios de Firebase y sus equivalentes en AWS.
+La adopción de arquitecturas distribuidas basadas en microservicios y funciones \textit{serverless} introduce desafíos particulares para el diagnóstico operativo: una sola acción del usuario puede atravesar el BFF, varios microservicios independientes y múltiples proveedores externos antes de retornar una respuesta. Los enfoques tradicionales de monitoreo —basados en revisar manualmente \textit{logs} servidor por servidor— resultan insuficientes ante esta complejidad. La práctica contemporánea articula tres pilares complementarios: \textit{logs} estructurados, métricas agregadas y trazas distribuidas \cite{Sridharan2018}.
 
-\newcommand\correspondenciaFirebaseAWSCaption{Correspondencia general entre los servicios de Firebase y sus equivalentes en AWS. \hspace{1em}}
-\begin{table}[H]
-  \centering
-  \begin{tabular}{|l|l|}
-    \hline
-    \grayTableHeaderCell{6cm}{Funcionalidad Firebase} & \grayTableHeaderCell{8cm}{Servicio AWS Equivalente} \\
+Los \textit{logs} estructurados (típicamente en formato JSON) sustituyen a los registros de texto plano y permiten su indexación, búsqueda y agregación automática. Las métricas derivadas a partir de patrones en los \textit{logs} habilitan paneles de control en tiempo real y alarmas proactivas sin requerir instrumentación adicional. Las trazas distribuidas, finalmente, correlacionan eventos a través de toda la malla de servicios mediante identificadores propagados de petición. En el ecosistema AWS, estos tres pilares se materializan mediante CloudWatch Logs (con \textit{Logs Insights} para consultas relacionales), CloudWatch Metrics (con filtros de métricas deducidas a partir de \textit{logs}) y AWS X-Ray (para trazas distribuidas). La práctica de \textit{Site Reliability Engineering} \cite{Beyer2016} consolida estos elementos en un programa operativo que incluye definición de SLOs, gestión de \textit{error budgets} y reducción sistemática del MTTR. En Paralegales, el subsistema de observabilidad implementado sigue directamente esta línea: interceptores HTTP que emiten eventos JSON estandarizados, métricas deducidas, alarmas vinculadas a notificaciones por Telegram y dashboards desplegados mediante CloudFormation.
 
-    \hline
-    Firebase Authentication & Amazon Cognito \\
-    \hline
-    Cloud Firestore & Amazon DynamoDB \\
-    \hline
-    Firebase Cloud Functions & AWS Lambda \\
-    \hline
-    Firebase Cloud Messaging & Amazon SNS \\
-    \hline
-    Cloud Storage & Amazon S3 + Amazon CloudFront \\
-    \hline
-    Firebase Hosting & AWS Amplify \\
-    \hline
-  \end{tabular}
-  \caption[\correspondenciaFirebaseAWSCaption]{\correspondenciaFirebaseAWSCaption Fuente: Elaboración propia.}
-  \label{tab:aws_firebase_comparison_services}
-\end{table}
+\subsubsection{Prácticas SDLC modernas y aseguramiento de calidad continuo}
 
-Esta correspondencia permite a las aplicaciones migradas beneficiarse de la robustez y escalabilidad de los servicios de AWS, adaptándose mejor a las necesidades empresariales en crecimiento.
+La capacidad de un equipo para sostener la velocidad de cambio sin degradar la confiabilidad del sistema depende en buena medida de la madurez de sus prácticas de ciclo de vida de desarrollo. \textcite{Humble2010} introdujeron el concepto de \textit{Continuous Delivery} (CD), que plantea automatizar de extremo a extremo el camino entre el \textit{commit} del desarrollador y el despliegue en producción, de modo que cada cambio pueda liberarse de forma rápida, repetible y de bajo riesgo. La CD descansa sobre tres pilares operativos: control de versiones disciplinado, automatización de pruebas a múltiples niveles, y \textit{pipelines} de integración continua que validan cada cambio frente a un conjunto explícito de criterios.
 
-Actualmente, la plataforma de Paralegales utiliza únicamente algunos servicios clave de Firebase: Firebase Authentication para la gestión de usuarios, Cloud Firestore como base de datos NoSQL y lógica de negocio crítica implementada directamente en el cliente. Esta última representa un riesgo de seguridad, ya que expone operaciones sensibles en el frontend. Como parte del proceso de migración a AWS, estos componentes serán reemplazados por servicios equivalentes más robustos y seguros: Amazon Cognito asumirá la autenticación de usuarios, Amazon DynamoDB gestionará los datos, y la lógica de negocio crítica será trasladada a funciones AWS Lambda, ejecutadas desde el \textit{backend}.
+La automatización a nivel local —mediante \textit{hooks} de Git que ejecutan \textit{linters}, formateadores y validadores de mensajes de \textit{commit}— complementa los \textit{pipelines} centralizados al detectar problemas antes de que el código entre al repositorio, reduciendo la fricción de las revisiones y el costo de las regresiones. La estrategia de pruebas, por su parte, se articula clásicamente como una pirámide en cuya base se sitúan numerosas pruebas unitarias rápidas, en el medio pruebas de integración menos numerosas, y en la cúspide un número reducido de pruebas \textit{end-to-end} que validan flujos completos desde la perspectiva del usuario. En Paralegales, esta estrategia se materializa mediante Lefthook como gestor de \textit{hooks}, ESLint y Prettier para análisis estático y formateo, Commitlint con \textit{Conventional Commits} para la trazabilidad del historial, GitHub Actions para los \textit{pipelines} de CI, Playwright para pruebas \textit{end-to-end} y Vitest acompañado de la suite de emuladores de Firebase para pruebas unitarias de las reglas de seguridad de Firestore.
 
-La migración de una plataforma desde Firebase a AWS requiere una planificación cuidadosa para minimizar interrupciones, preservar la integridad de los datos y garantizar una experiencia fluida para los usuarios. En el caso de Paralegales, esta transición está prevista una vez que la aplicación esté en producción y cuente con usuarios reales, lo que hace aún más crucial la implementación de estrategias que permitan una migración progresiva y controlada. A continuación, se describen las principales estrategias consideradas para llevar a cabo este proceso.
+\subsubsection{Migración total a AWS: alternativa evaluada y descartada}
 
-\subsubsection{Migración de usuarios de Firebase a Amazon Cognito}
+Durante la fase exploratoria del proyecto se consideró la alternativa de una migración total de la plataforma desde Firebase hacia AWS, sustituyendo cada servicio de Firebase por su contraparte en AWS: Firebase Authentication por Amazon Cognito, Cloud Firestore por Amazon DynamoDB, Firebase Cloud Functions por AWS Lambda y Firebase Cloud Messaging por Amazon SNS \cite{Michael2021}. La literatura ofrece guías técnicas detalladas para acometer este tipo de transición: \textcite{Hall2017} describe estrategias para migrar usuarios desde Firebase Authentication hacia Cognito (importación por lotes con restablecimiento obligatorio de contraseñas o migración progresiva al iniciar sesión), \textcite{Shank2021} provee un repositorio de código abierto basado en AWS CDK que automatiza la replicación de los servicios clave de Firebase en AWS, y \textcite{Kansara2024} presenta un marco general para procesos ETL hacia bases de datos en la nube apoyado en AWS Step Functions, Lambda y SQS. \textcite{Kyadasu2025} complementan esta perspectiva con prácticas DevOps específicas para migraciones entre proveedores de nube.
 
-Como lo indica A. Hall en el blog de AWS \cite{Hall2017}, Existen dos métodos principales para migrar usuarios:
-
-\begin{enumerate}[label=\alph*)]
-
-\item \textbf{\textit{Importación por lotes}}: Consiste en exportar los datos de usuario desde Firebase y cargarlos en Amazon Cognito mediante un archivo CSV. Es importante destacar que las contraseñas no se migran, por lo que los usuarios deberán restablecerse al iniciar sesión por primera vez en el nuevo sistema.
-
-\item \textbf{\textit{Migración individual al iniciar sesión}}: Esta estrategia permite migrar usuarios a medida que inician sesión. Si un usuario no existe en Cognito, se autentica mediante Firebase y luego se crea su cuenta en Cognito, permitiendo una transición sin interrupciones para el usuario.
-\end{enumerate}
-
-\subsubsection{Migración de datos de Firestore a DynamoDB}
-
-La migración de datos puede realizarse mediante los siguientes enfoques complementarios:
-
-\begin{enumerate}[label=\alph*)]
-\item \textbf{\textit{Carga Masiva}}: La migración de datos desde Cloud Firestore hacia Amazon DynamoDB requiere más que una simple operación de exportación e importación, ya que los modelos de datos de ambas bases de datos no son completamente compatibles. Por ello, se recomienda implementar una pipeline de tipo ETL (\textit{Extract, Transform, Load}) que permita transformar y adaptar los datos durante el proceso de migración \cite{Michael2021}.
-
-\hfill
-
-Esta pipeline puede construirse utilizando servicios totalmente gestionados de AWS, como AWS Step Functions para la orquestación del flujo, AWS Lambda para ejecutar cada una de las etapas del proceso de extracción, transformación y carga, y Amazon SQS para manejar la comunicación entre pasos mediante colas de mensajes. Este enfoque garantiza durabilidad y capacidad de re-ejecución de los trabajos en caso de fallos, a la vez que minimiza la carga operativa y reduce los costos al utilizar servicios \textit{serverless} \cite{Michael2021}.
-
-\item \textbf{\textit{Sincronización en Paralelo}}: Durante un período de transición, operar ambas bases de datos en paralelo, sincronizando los cambios en tiempo real para garantizar la consistencia de los datos hasta completar la migración.
-\end{enumerate}
-
-\subsubsection{Referencia práctica de migración: implementación basada en AWS CDK}
-
-Además de la documentación oficial, B. Shank \cite{Shank2021}, Sr. Startup SA en AWS, implementó un repositorio de código abierto en en AWS CDK que puede servir como guía práctica para realizar la migración. Dicho repositorio, incluye dos fases de despliegue y múltiples \textit{stacks} que replican los servicios clave de Firebase: Firestore, Authentication y Cloud Storage, utilizando sus equivalentes en AWS (DynamoDB, Cognito y S3, respectivamente).
-
-\newcommand\DiagramaMigracionAWSCaption{Diagrama de Infraestructura de la migración propuesta por B. Shank. \hspace{1em}}
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.9\textwidth]{img/figures/fig5-etl-pipeline-aws.png}
-\caption[\DiagramaMigracionAWSCaption]{\DiagramaMigracionAWSCaption Fuente: Tomado de \cite{Shank2021}.}
-\label{fig:aws_migration_pipeline}
-\end{figure}
-
-En la primera fase ilustrada en la \autoref{fig:aws_migration_pipeline}, se aprovisionan los recursos base y se ejecuta automáticamente una máquina de estados de AWS Step Functions que extrae y transforma los datos desde Firestore para cargarlos en DynamoDB, utilizando un esquema de tabla única. En paralelo, los usuarios de Firebase Authentication se migran a Amazon Cognito a través de un trigger Lambda específico durante el despliegue.
-
-La segunda, también detallada en la \autoref{fig:aws_migration_pipeline}, fase despliega una API GraphQL con AppSync, cuya definición se genera automáticamente a partir de los datos sincronizados. También incluye un servicio en AWS Fargate que escucha eventos en tiempo real desde Firestore y sincroniza los cambios con DynamoDB. Esta arquitectura híbrida permite mantener ambas plataformas operando en paralelo durante el proceso de transición, lo que resulta especialmente útil para reducir el riesgo al migrar una aplicación en producción.
-
-\subsubsection{Bibliografía Complementaria}
-Como complemento a los enfoques técnicos revisados, el trabajo de \textcite{Kansara2024} aporta una visión más amplia sobre los desafíos y metodologías emergentes en procesos de migración de bases de datos hacia la nube. Su estudio enfatiza la automatización, la integridad de los datos y la optimización del rendimiento como pilares fundamentales para garantizar migraciones eficientes y seguras. En particular, el autor presenta un diagrama de alto nivel que descompone el proceso en fases estructuradas: extracción y validación de datos, refactorización de lógica de negocio, transferencia segura y orquestación de servicios en la nube. Esta representación, ilustrada en la \autoref{fig:etl_process_diagram}, proporciona un marco útil para entender la transición desde arquitecturas legadas hacia entornos escalables y distribuidos basados en servicios nativos de la nube.
-
-\newcommand\migrationProcessDiagramCaption{Diagrama del proceso de migración a base de datos en la nube. \hspace{1em}}
-\begin{figure}[H]
-\centering
-\includegraphics[width=1\textwidth]{img/figures/fig6-etl-process.png}
-\caption[\migrationProcessDiagramCaption]{\migrationProcessDiagramCaption Fuente: Tomado de \cite{Kansara2024}.}
-\label{fig:etl_process_diagram}
-\end{figure}
-
-Por otro lado, en la literatura complementaria se encuentra el trabajo de \textcite{Kyadasu2025}, quienes, a través de un estudio de caso sobre migración entre proveedores de nube, explican cómo las prácticas DevOps, con su enfoque en la automatización y la integración y entrega continuas (CI/CD), ofrecen beneficios significativos y presentan lo que consideran como mejores prácticas para llevar a cabo este tipo de procesos.
+A partir de esta evaluación se inició formalmente el trabajo de migración del motor de persistencia desde Firestore hacia DynamoDB, lo que motivó originalmente la introducción del patrón \textit{Handler--Service--Repository} en el \textit{backend}. Sin embargo, tras analizar el balance entre el costo total de la migración —técnico, operativo y de oportunidad— y los beneficios esperados frente a una plataforma ya en producción con base de usuarios activa, la organización decidió descartar la migración total y consolidar en su lugar una estrategia de evolución arquitectónica híbrida. El patrón de repositorios introducido durante esa fase exploratoria se conservó por los beneficios independientes de testabilidad y desacoplamiento que aporta, y deja la puerta abierta a una eventual sustitución futura del motor de persistencia sin acoplar dicha decisión al resto del sistema.
