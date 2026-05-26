@@ -16,3 +16,4 @@ chktex
 biber
 ragged2e
 grfext
+adjustbox

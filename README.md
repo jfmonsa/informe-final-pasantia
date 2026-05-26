@@ -18,30 +18,37 @@ Este repositorio contiene el código fuente LaTex de la mi propuesta de trabajo 
 
 ## Get Started
 
-Este repo hace uso de un setup basado principalmente en vscode, con la extensión [LaTex Workshop](https://github.com/James-Yu/LaTeX-Workshop/wiki/Install). Como LaTex engine se usa [TinyTex](https://yihui.org/tinytex/) y con `tlmgr`se instalan los paquetes necesarios.
+Este repo se ha modernizado para utilizar contenedores Docker, lo que simplifica el manejo de dependencias y asegura un entorno reproducible para cualquier colaborador. 
 
-Como herramientas de desarrollo se usan: 1. `tex-fmt`, Formateador de Tex escrito en Rust; 2. `chktex`, Linter para Tex, 3. `TaskFile`, para correr scripts rutinarios; 4. Spell Checker, extensión de vscode para la corrección ortográfica
+Las herramientas incluidas en el contenedor son:
+1. **TinyTex**: Motor LaTeX ligero.
+2. **tex-fmt**: Formateador de código TeX (escrito en Rust).
+3. **Make**: Para ejecutar comandos comunes (reemplaza a Taskfile).
+4. **Dependencias y Paquetes LaTeX**: Preinstalados según `latex-packages.txt`.
 
-### Instalación (Unix systems)
+### Opción 1: Usando VS Code Dev Containers (Recomendado)
 
-Corre los siguientes comandos
+Esta es la forma más fácil y *Plug-and-Play* de trabajar en el proyecto. 
 
-```sh
-chmod +x ./scripts/install.dev.sh
-./scripts/install.dev.sh
-```
+1. Asegúrate de tener instalado [Docker](https://docs.docker.com/get-docker/) y [Visual Studio Code](https://code.visualstudio.com/).
+2. Instala la extensión de VS Code: [Dev Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers).
+3. Abre este repositorio en VS Code. 
+4. Aparecerá un cuadro de diálogo en la esquina inferior derecha preguntando si quieres "Reabrir en un Contenedor" (Reopen in Container). Haz clic en él.
+   *(Alternativa: Abre la paleta de comandos con `Ctrl+Shift+P` y busca "Dev Containers: Reopen in Container")*.
 
-> [!NOTE]
-> En caso de dar problemas con la librería `libxcrypt` (dependencia necesaria del paquete biber) instalela con el gestor de paquetes de su sistema. e.g `sudo pacman -S libxcrypt-compat` para Arch Linux.
+Una vez cargado, VS Code instalará y configurará automáticamente la extensión de **LaTeX Workshop**, **Spell Checker**, el formateador `tex-fmt` y todo estará listo para compilar automáticamente.
 
-### Desinstalar
+### Opción 2: Usando Docker Compose (Desde la Consola)
 
-Corre los siguientes comandos
+Si prefieres usar otro editor o solo la consola, puedes usar `docker-compose`.
 
-```sh
-chmod +x ./scripts/uninstall.dev.sh
-./scripts/uninstall.dev.sh
-```
+1. Para inicializar el contenedor interactivo o ejecutar comandos (ejemplo con `make compile`):
+   ```sh
+   docker compose run --rm latex-dev make compile
+   ```
+2. Para entrar a la consola del contenedor y trabajar desde allí:
+   ```sh
+   docker compose run --rm latex-dev /bin/bash
+   ```
 
-> [!NOTE]
-> Comenta partes del script en tu repo local para evitar eliminar dependencias que te puedan ser útiles.
+*(Nota: Los archivos antiguos de instalación local directa aún se conservan en la carpeta `scripts/` como referencia histórica o para instalación sin Docker, pero se recomienda encarecidamente la ruta de Docker).*

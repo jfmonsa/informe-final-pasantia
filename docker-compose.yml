@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  latex-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/workspace
+    working_dir: /workspace
+    # Keeps the container running if started in background
+    command: sleep infinity
+    # Ensure standard input/output is available
+    stdin_open: true
+    tty: true

@@ -1,0 +1,39 @@
+\subsection{Prácticas de Ciclo de Vida de Desarrollo y Aseguramiento de Calidad}\label{subsec:sdlc}
+
+Para garantizar la estabilidad, la mantenibilidad y la evolución segura del ecosistema Paralegales, se implementó un conjunto riguroso de prácticas de ingeniería de software a lo largo del ciclo de vida de desarrollo (\textit{Software Development Life Cycle}, SDLC). Estas prácticas abarcan desde la estandarización del código en los entornos locales de los desarrolladores hasta la validación automática en los repositorios compartidos, conformando un sistema de aseguramiento de calidad continuo y multicapa.
+
+\subsubsection{Estandarización de Código y \textit{Hooks} de Pre-commit}
+
+Con el objetivo de mantener una base de código coherente y libre de errores sintácticos o de estilo, se integraron herramientas de análisis estático y formateo. El ecosistema utiliza ESLint para el \textit{linting} de archivos JavaScript, TypeScript y componentes Vue, y Prettier para el formateo estandarizado y uniforme de múltiples extensiones (incluyendo CSS, JSON, YAML y Markdown).
+
+Para automatizar y hacer obligatorio el cumplimiento de estas reglas antes de que el código ingrese al control de versiones, se adoptó Lefthook como gestor de \textit{hooks} de Git. Su configuración define tres flujos de interceptación clave:
+
+\begin{itemize}
+  \item \textbf{\textit{Pre-commit}:} ejecuta en paralelo el formateo (\texttt{prettier --write}) y la validación estática (\texttt{eslint}) exclusivamente sobre los archivos que están en el área de preparación (\textit{staged files}). Si el código es formateado automáticamente, Lefthook lo re-agrega al \textit{commit} sin interrumpir el flujo de trabajo del desarrollador.
+
+  \item \textbf{\textit{Commit-msg}:} garantiza la trazabilidad e historial semántico del proyecto aplicando el estándar \textit{Conventional Commits}. Mediante la integración de Commitlint, cada mensaje de \textit{commit} es evaluado para confirmar que cuenta con una estructura válida (tipo de cambio, alcance y descripción) y que respeta las longitudes máximas configuradas para garantizar legibilidad.
+
+  \item \textbf{\textit{Post-merge}:} detecta si hubo cambios estructurales en el árbol de dependencias (modificaciones en \texttt{pnpm-lock.yaml} o \texttt{package.json}) tras una sincronización o fusión de ramas. Si es el caso, dispara automáticamente la instalación de paquetes (\texttt{pnpm install}) para mantener el entorno local perfectamente sincronizado.
+\end{itemize}
+
+\subsubsection{Integración Continua}
+
+Las pipelines de integración continua (\textit{Continuous Integration}, CI) están orquestadas de manera declarativa a través de GitHub Actions. El flujo principal de integración (\texttt{ci.yml}) está diseñado para ejecutarse de forma obligatoria frente a (\textit{Pull Requests}) dirigidas a ramas protegidas, realizando validaciones estrictas con tiempos de procesamiento optimizados:
+
+\begin{itemize}
+  \item \textbf{Configuración de entorno y caché:} el \textit{pipeline} aprovisiona contenedores con Node.js e instala eficientemente las dependencias utilizando \texttt{pnpm}, apoyándose en el sistema de caché nativo de GitHub para reutilizar los módulos descargados en ejecuciones previas y reducir la duración total del proceso.
+
+  \item \textbf{Validación diferencial:} se utilizan acciones especializadas de detección de cambios para ejecutar el \textit{linting} y las pruebas de formato únicamente sobre el subconjunto de archivos que sufrieron modificaciones reales, evitando análisis innecesarios sobre código sin cambios.
+\end{itemize}
+
+\subsubsection{Estrategia de Pruebas Automatizadas}
+
+La confiabilidad funcional y el blindaje de los datos están soportados por una \textit{suite} de pruebas diversificada. Un factor fundamental de esta estrategia es el uso de la Firebase Emulator Suite, que permite simular de forma local y efímera servicios en la nube como Firestore y Firebase Authentication, sin incurrir en costos ni afectar entornos reales de producción.
+
+\begin{itemize}
+  \item \textbf{Pruebas \textit{end-to-end} (E2E):} implementadas mediante el \textit{framework} Playwright, simulan el comportamiento determinista de un usuario navegando e interactuando con la interfaz gráfica del portal. Estas pruebas se ejecutan contra los emuladores locales, garantizando que flujos integrales —como el inicio de sesión, la creación de entidades o la interacción con componentes modales— operen correctamente de extremo a extremo.
+
+  \item \textbf{Pruebas unitarias de reglas de seguridad:} dado que el control de acceso a los datos en Firestore es un aspecto crítico del sistema, las Reglas de Seguridad son evaluadas a través de pruebas unitarias exhaustivas. Utilizando Vitest en conjunto con la librería \texttt{@firebase/rules-unit-testing}, la \textit{suite} despliega un entorno emulado y ejecuta baterías de pruebas tanto positivas como negativas, certificando iterativamente que usuarios no autenticados, o con roles insuficientes, no posean permisos de lectura, escritura o eliminación sobre datos ajenos.
+\end{itemize}
+
+La integración de estas prácticas a lo largo del SDLC —desde el \textit{commit} inicial hasta la ejecución del \textit{pipeline} de CI— configura un sistema de aseguramiento de calidad que opera de forma continua y automatizada, reduciendo el riesgo de regresiones y garantizando que cada iteración del sistema mantenga los estándares de calidad y seguridad establecidos para la plataforma.
