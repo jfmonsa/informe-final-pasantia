@@ -4,7 +4,7 @@
 \newcommand\objetivoEspecificoAResulados{
   \begin{itemize}[leftmargin=*, topsep=0pt, itemsep=0pt]
     \item Lógica crítica de los módulos de procesos y campañas ejecutándose en entornos del lado del servidor (AWS Lambda y BFF en Nuxt), sin exposición en el cliente.
-    \item Integraciones con APIs externas (Rama Judicial y SAMAI) encapsuladas en el BFF como \textit{proxy} controlado, con saneamiento y manejo centralizado de errores.
+    \item Patrón \textit{Backend-for-Frontend} (BFF) introducido en \texttt{paralegales-ui} como capa intermediaria que encapsula la integración con la API de la Rama Judicial a modo de \textit{proxy} controlado, con saneamiento y manejo centralizado de errores.
   \end{itemize}
 }
 
@@ -27,7 +27,7 @@
   \begin{itemize}[leftmargin=1em, topsep=2pt, itemsep=2pt]
     \item \textit{Hooks} de \textit{pre-commit}, \textit{commit-msg} y \textit{post-merge} operativos a través de Lefthook, integrando ESLint, Prettier y Commitlint.
     \item Pipeline de integración continua en GitHub Actions que ejecuta validación diferencial sobre los archivos modificados en cada \textit{pull request}.
-    \item Suite de pruebas \textit{end-to-end} con Playwright y suite de pruebas unitarias de las reglas de seguridad de Firestore con Vitest, ambas ejecutándose sobre la \textit{Firebase Emulator Suite}.
+    \item Suite de pruebas unitarias de las reglas de seguridad de Firestore con Vitest, ejecutándose sobre la \textit{Firebase Emulator Suite}.
   \end{itemize}
 }
 
