@@ -1,0 +1,59 @@
+\subsection{Síntesis y Limitaciones}\label{subsec:sintesis-pruebas}
+
+La estrategia de pruebas del proyecto se asienta en una asignación del esfuerzo guiada por el riesgo, antes que en una cobertura uniforme. La \autoref{tab:sintesis-pruebas} resume las capas de validación, su grado de automatización y la evidencia que las respalda.
+
+\newcommand\sintesisPruebasCaption{Síntesis de las capas de la estrategia de pruebas. \hspace{1em}}
+
+\begingroup
+\renewcommand{\arraystretch}{1.3}
+\begin{longtable}{|p{4.5cm}|p{3cm}|p{6.5cm}|}
+  \hline
+  \grayTableHeaderCell{4.5cm}{Capa de validación} &
+  \grayTableHeaderCell{3cm}{Automatización} &
+  \grayTableHeaderCell{6.5cm}{Evidencia / estado} \\
+  \hline
+  \endfirsthead
+
+  \hline
+  \grayTableHeaderCell{4.5cm}{Capa de validación} &
+  \grayTableHeaderCell{3cm}{Automatización} &
+  \grayTableHeaderCell{6.5cm}{Evidencia / estado} \\
+  \hline
+  \endhead
+
+  \continuacionTablaFooter{3}
+  \endfoot
+  \endlastfoot
+
+  \tableCell{Reglas de seguridad de Firestore} &
+  \tableCell{Automatizada} &
+  \tableCell{\textit{Suite} con Vitest sobre la \textit{Firebase Emulator Suite}; casos positivos y negativos por colección; ejecutada como compuerta obligatoria en el \textit{pipeline} de CI (\autoref{subsec:pruebas-ci}).} \\
+  \hline
+
+  \tableCell{Flujos funcionales de extremo a extremo} &
+  \tableCell{Manual} &
+  \tableCell{Validación sistemática y exploratoria en \textit{staging}; casos documentados (\autoref{tab:casos-manuales}).} \\
+  \hline
+
+  \tableCell{Pruebas \textit{end-to-end} de interfaz} &
+  \tableCell{Exploratoria, no consolidada} &
+  \tableCell{Base montada con Playwright (POM y \textit{fixtures}); no adoptada por costo-beneficio.} \\
+  \hline
+
+  \tableCell{Validación estática (\textit{lint} / formato)} &
+  \tableCell{Automatizada} &
+  \tableCell{Compuerta obligatoria en el \textit{pipeline} de CI sobre archivos modificados (\autoref{subsec:sdlc}).} \\
+  \hline
+
+  \caption[\sintesisPruebasCaption]{\sintesisPruebasCaption Fuente: Elaboración propia.}
+  \label{tab:sintesis-pruebas}
+\end{longtable}
+\endgroup
+
+\subsubsection{Limitaciones}
+
+El reconocimiento explícito de las limitaciones es parte del rigor con que se presenta la estrategia: la automatización se concentra en las reglas de seguridad, mientras que la lógica de negocio del lado del servidor y los flujos de interfaz carecen de una \textit{suite} automatizada equivalente y dependen de la validación manual; esta, a su vez, recae en el esfuerzo humano, lo que la hace sensible a la disponibilidad del equipo y menos exhaustiva ante regresiones sutiles. Por su parte, la automatización de los flujos \textit{end-to-end} quedó en estado exploratorio.
+
+\subsubsection{Trabajo futuro}
+
+De estas limitaciones se derivan líneas de mejora directas: (i) optimizar la ejecución de la \textit{suite} de reglas en CI mediante el cacheo del emulador y la publicación de artefactos de cobertura; (ii) consolidar la \textit{suite} \textit{end-to-end} con Playwright sobre la base ya construida, priorizando los flujos críticos de mayor estabilidad; y (iii) extender la automatización hacia la lógica de negocio del lado del servidor. Estas mejoras trasladarían parte de la carga de validación manual hacia mecanismos automáticos y continuos, fortaleciendo el aseguramiento de calidad a medida que el sistema crece.

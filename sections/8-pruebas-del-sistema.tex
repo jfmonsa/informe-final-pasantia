@@ -1,0 +1,10 @@
+\section{Pruebas del Sistema}
+
+Este capítulo documenta la estrategia de pruebas aplicada al ecosistema Paralegales y la evidencia que la respalda. A diferencia del capítulo de desarrollo, que describe los componentes construidos, y del de resultados, que confronta los objetivos con la evidencia demostrativa obtenida, aquí el propósito es detallar cómo se verifica de forma sistemática que el sistema se comporta conforme a lo esperado, en particular allí donde un fallo silencioso tendría mayor impacto. La estrategia no persigue experimentación controlada, sino el aseguramiento de la confiabilidad de una plataforma en producción con base de usuarios activa, y combina una capa de pruebas automatizadas —centrada en el blindaje de los datos mediante las reglas de seguridad de Firestore— con una capa de validación manual sistemática sobre el entorno de \textit{staging}; se documentan además la evaluación exploratoria de pruebas \textit{end-to-end} y su integración en el \textit{pipeline} de integración continua.
+
+\input{sections/8-pruebas-del-sistema-sub-sections/8.1-enfoque}
+\input{sections/8-pruebas-del-sistema-sub-sections/8.2-reglas-seguridad-firestore}
+\input{sections/8-pruebas-del-sistema-sub-sections/8.3-validacion-manual-staging}
+\input{sections/8-pruebas-del-sistema-sub-sections/8.4-evaluacion-e2e}
+\input{sections/8-pruebas-del-sistema-sub-sections/8.5-integracion-ci}
+\input{sections/8-pruebas-del-sistema-sub-sections/8.6-sintesis-limitaciones}

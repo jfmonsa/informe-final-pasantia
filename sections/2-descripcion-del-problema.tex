@@ -20,17 +20,17 @@ A partir del análisis del estado inicial del sistema, se identifican cuatro fre
   \item \textbf{Ausencia de observabilidad transversal y de prácticas formales de aseguramiento de calidad:} la plataforma carecía de un sistema unificado para registrar, correlacionar y exponer el comportamiento del sistema en producción, especialmente sobre integraciones críticas con servicios externos como la Rama Judicial. De manera complementaria, las prácticas de ciclo de vida de desarrollo (\textit{linting}, formateo, validación de \textit{commits}, integración continua y pruebas automatizadas) no estaban formalmente automatizadas, lo que dificultaba sostener velocidad de cambio sin degradar la confiabilidad del producto.
 \end{enumerate}
 
-\subsection{Hipótesis}
+\subsection{Proposición de intervención}
 
-A partir del análisis anterior, este trabajo plantea la siguiente hipótesis central:
+A partir del análisis anterior, este trabajo plantea la siguiente proposición central, que orienta sus objetivos de intervención:
 
 \begin{quote}
-  \textbf{Una estrategia de \textit{evolución arquitectónica híbrida} sobre la plataforma Paralegales —articulada mediante (i) la reubicación sistemática de la lógica de negocio crítica desde el cliente hacia entornos de ejecución del lado del servidor, articulada mediante mecanismos complementarios: funciones \textit{serverless} para la lógica de servicios y un \textit{Backend-for-Frontend} para los flujos cercanos a la sesión del usuario, (ii) una organización modular del \textit{frontend} bajo principios de \textit{Domain-Driven Design}, (iii) una capa de servicios \textit{backend} con separación estricta \textit{Handler--Service--Repository}, y (iv) capacidades transversales de observabilidad estructurada y aseguramiento de calidad continuo— permite mitigar los riesgos de seguridad, la fragmentación arquitectónica y los déficits de mantenibilidad del sistema, sin incurrir en el costo operacional, el riesgo de interrupción del servicio ni la disrupción organizacional que implicaría una migración total del proveedor de nube.}
+  \textbf{Una estrategia de \textit{evolución arquitectónica híbrida} sobre la plataforma Paralegales permite mitigar los riesgos de seguridad, la fragmentación arquitectónica y los déficits de mantenibilidad del sistema, sin incurrir en el costo operacional, el riesgo de interrupción del servicio ni la disrupción organizacional que implicaría una migración total del proveedor de nube. Dicha estrategia se materializa en cuatro líneas de intervención complementarias: (i) la reubicación sistemática de la lógica de negocio crítica desde el cliente hacia entornos de ejecución del lado del servidor —mediante funciones \textit{serverless} para la lógica de servicios y un \textit{Backend-for-Frontend} para los flujos cercanos a la sesión del usuario—; (ii) una organización modular del \textit{frontend} bajo principios de \textit{Domain-Driven Design}; (iii) una capa de servicios \textit{backend} con separación estricta \textit{Handler--Service--Repository}; y (iv) capacidades transversales de observabilidad estructurada y aseguramiento de calidad continuo.}
 \end{quote}
 
 \subsubsection*{Supuestos subyacentes}
 
-La hipótesis anterior descansa sobre un conjunto de supuestos que conviene explicitar, dado que delimitan su ámbito de validez:
+La proposición anterior descansa sobre un conjunto de supuestos que conviene explicitar, dado que delimitan su ámbito de validez:
 
 \begin{itemize}
   \item Los servicios Firebase Auth y Firestore satisfacen los requerimientos no-funcionales de seguridad, escalabilidad y consistencia exigidos por la etapa actual del producto, por lo que su sustitución no constituye un objetivo prioritario.
@@ -41,7 +41,7 @@ La hipótesis anterior descansa sobre un conjunto de supuestos que conviene expl
 
 \subsubsection*{Dimensiones de análisis}
 
-La hipótesis articula su efecto esperado sobre cinco dimensiones del sistema, cada una de las cuales se conecta con uno o varios de los frentes problemáticos descritos previamente:
+La proposición articula su efecto esperado sobre cinco dimensiones del sistema, cada una de las cuales se conecta con uno o varios de los frentes problemáticos descritos previamente:
 
 \begin{itemize}
   \item \textbf{Seguridad:} reducción de la superficie de exposición de lógica de negocio sensible y endurecimiento del control de acceso a los datos.
@@ -51,4 +51,4 @@ La hipótesis articula su efecto esperado sobre cinco dimensiones del sistema, c
   \item \textbf{Agilidad de evolución:} capacidad de incorporar nuevas \textit{features} o sustituir componentes técnicos sin acoplamiento transversal que multiplique el costo del cambio.
 \end{itemize}
 
-Estas dimensiones constituyen el marco bajo el cual se valoran las decisiones técnicas adoptadas a lo largo del proyecto y, a la vez, sirven de referencia implícita para juzgar el grado de cumplimiento de la hipótesis al cierre del trabajo.
+Estas dimensiones constituyen el marco bajo el cual se valoran las decisiones técnicas adoptadas a lo largo del proyecto y, a la vez, sirven de referencia implícita para juzgar el grado de cumplimiento de la proposición al cierre del trabajo.

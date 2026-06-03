@@ -1,0 +1,73 @@
+\subsection{Validación Manual Sistemática en el Entorno de \textit{Staging}}\label{subsec:validacion-manual}
+
+Las pruebas de reglas aseguran un aspecto crítico pero acotado. La verificación de que los flujos funcionales operan correctamente de extremo a extremo —integrando el \textit{frontend}, los servicios del lado del servidor y las integraciones con terceros, como la API de la Rama Judicial— se realizó mediante validación manual sistemática sobre el entorno de \textit{staging} (\texttt{stage.paralegales.co}). Este entorno funciona como réplica de producción y compuerta de validación previa al despliegue: cada conjunto de cambios se despliega primero allí, sobre datos y condiciones representativos, lo que permite observar el comportamiento real del sistema —incluida la interacción con servicios externos y la experiencia de usuario— sin riesgo para los usuarios finales.
+
+La validación combinó \textbf{pruebas de aceptación} de los flujos críticos de mayor valor de negocio —autenticación y registro, gestión de procesos y operación de campañas— siguiendo escenarios predefinidos con resultado esperado explícito, y \textbf{pruebas exploratorias} orientadas a descubrir comportamientos inesperados en los bordes de cada flujo. Para sistematizar la primera modalidad, los flujos se documentaron como casos de prueba con identificador, pasos y resultado esperado, ejecutables de forma consistente ante cada cambio relevante; la \autoref{tab:casos-manuales} recoge un conjunto representativo.
+
+\newcommand\casosManualesCaption{Casos representativos de la validación manual sistemática ejecutada en \textit{staging}. \hspace{1em}}
+
+\begingroup
+\renewcommand{\arraystretch}{1.3}
+\begin{longtable}{|p{1.6cm}|p{4.4cm}|p{5cm}|p{3.6cm}|}
+  \hline
+  \grayTableHeaderCell{1.6cm}{ID} &
+  \grayTableHeaderCell{4.4cm}{Flujo} &
+  \grayTableHeaderCell{5cm}{Escenario / pasos} &
+  \grayTableHeaderCell{3.6cm}{Resultado esperado} \\
+  \hline
+  \endfirsthead
+
+  \hline
+  \grayTableHeaderCell{1.6cm}{ID} &
+  \grayTableHeaderCell{4.4cm}{Flujo} &
+  \grayTableHeaderCell{5cm}{Escenario / pasos} &
+  \grayTableHeaderCell{3.6cm}{Resultado esperado} \\
+  \hline
+  \endhead
+
+  \continuacionTablaFooter{4}
+  \endfoot
+  \endlastfoot
+
+  \tableCell{CP-01} &
+  \tableCell{Registro de usuario} &
+  \tableCell{Registrar un usuario nuevo con datos válidos y verificación de teléfono.} &
+  \tableCell{Cuenta creada y sesión iniciada; documento de usuario asociado al \texttt{uid}.} \\
+  \hline
+
+  \tableCell{CP-02} &
+  \tableCell{Autenticación} &
+  \tableCell{Iniciar sesión con credenciales válidas e inválidas.} &
+  \tableCell{Acceso concedido con credenciales válidas; mensaje de error controlado en caso contrario.} \\
+  \hline
+
+  \tableCell{CP-03} &
+  \tableCell{Consulta de procesos (Rama Judicial)} &
+  \tableCell{Consultar un proceso a través del BFF que integra la API de la Rama Judicial.} &
+  \tableCell{Datos del proceso recuperados y normalizados; errores de la fuente externa manejados sin exponer detalles internos.} \\
+  \hline
+
+  \tableCell{CP-04} &
+  \tableCell{Seguimiento de proceso} &
+  \tableCell{Activar el seguimiento de un proceso por parte del usuario propietario.} &
+  \tableCell{Seguimiento registrado únicamente para el propietario; acceso ajeno bloqueado.} \\
+  \hline
+
+  \tableCell{CP-05} &
+  \tableCell{Operación de campañas} &
+  \tableCell{Crear y ejecutar una campaña sobre el módulo correspondiente.} &
+  \tableCell{Campaña creada y procesada conforme a la lógica del lado del servidor.} \\
+  \hline
+
+  \tableCell{CP-06} &
+  \tableCell{Aislamiento de datos} &
+  \tableCell{Intentar acceder a información de otro usuario desde una sesión distinta.} &
+  \tableCell{Acceso denegado, en consistencia con las reglas de seguridad de Firestore.} \\
+  \hline
+
+  \caption[\casosManualesCaption]{\casosManualesCaption Fuente: Elaboración propia.}
+  \label{tab:casos-manuales}
+\end{longtable}
+\endgroup
+
+Este proceso, aunque manual, fue sistemático y repetible, y constituyó el principal mecanismo de aseguramiento funcional de extremo a extremo del proyecto; sus limitaciones se analizan en la síntesis del capítulo (\autoref{subsec:sintesis-pruebas}).

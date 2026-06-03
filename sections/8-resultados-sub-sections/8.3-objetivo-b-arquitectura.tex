@@ -7,7 +7,35 @@ En el \textit{frontend}, la aplicación quedó organizada en nueve \textit{bound
 \newcommand\resultadoFeatureTreeCaption{Estructura final del \textit{frontend} organizada en \textit{bounded contexts} mediante Nuxt Layers. \hspace{1em}}
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.7\textwidth]{img/figures/fig36-resultado-feature-tree.png}
+  \begin{verbatim}
+paralegales-ui/src
+|-- app-core
+|   |-- layouts
+|   |-- middleware
+|   |-- navigation
+|   |-- plugins
+|   `-- public
+|-- common
+|   |-- assets
+|   |-- components
+|   |-- composables
+|   |-- models
+|   |-- server
+|   |-- stores
+|   `-- utils
+|-- features
+|   |-- active-tracking
+|   |-- auth
+|   |-- home
+|   |-- my-processes
+|   |-- payments
+|   |-- process-details
+|   |-- search-processes
+|   |-- terms-and-conditions
+|   `-- user-settings
+`-- vendor
+    `-- vuexy
+  \end{verbatim}
   \caption[\resultadoFeatureTreeCaption]{\resultadoFeatureTreeCaption Fuente: Elaboración propia.}
   \label{fig:resultado-feature-tree}
 \end{figure}

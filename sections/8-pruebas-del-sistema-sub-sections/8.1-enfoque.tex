@@ -1,0 +1,13 @@
+\subsection{Enfoque y Estrategia de Pruebas}\label{subsec:enfoque-pruebas}
+
+El alcance de las pruebas está determinado por dos restricciones del contexto: se interviene una plataforma en producción cuya estabilidad no puede comprometerse y el equipo de desarrollo es reducido. Por ello la estrategia no busca una cobertura uniforme de todo el sistema, sino una asignación del esfuerzo de verificación guiada por el riesgo, organizada en capas complementarias a modo de adaptación pragmática de la pirámide de pruebas:
+
+\begin{itemize}
+  \item \textbf{Pruebas unitarias automatizadas:} concentradas en las Reglas de Seguridad de Firestore —el mecanismo de control de acceso a los datos y, por tanto, el punto donde un error tendría consecuencias directas sobre la confidencialidad de la información—, ejecutadas de forma automática y repetible sobre un entorno emulado.
+
+  \item \textbf{Validación manual sistemática:} ejercida sobre el entorno de \textit{staging}, donde se verifican de extremo a extremo los flujos funcionales críticos —incluida la interacción entre \textit{frontend}, servicios del lado del servidor e integraciones externas— antes de promover los cambios a producción.
+
+  \item \textbf{Evaluación exploratoria de pruebas \textit{end-to-end}:} una iniciativa que valoró automatizar los flujos de interfaz pero que, por razones de costo-beneficio, no se consolidó.
+\end{itemize}
+
+En consonancia con el enfoque de evaluación de resultados (\autoref{subsec:enfoque-resultados}), la evidencia de este capítulo es demostrativa y artefactual —ejecuciones de la \textit{suite}, casos documentados y capturas del comportamiento observado—, no de carácter experimental.

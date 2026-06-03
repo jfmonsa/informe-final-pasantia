@@ -28,12 +28,6 @@ Las pipelines de integración continua (\textit{Continuous Integration}, CI) est
 
 \subsubsection{Estrategia de Pruebas Automatizadas}
 
-La confiabilidad funcional y el blindaje de los datos están soportados por una estrategia de pruebas centrada en la validación de las reglas de seguridad. Un factor fundamental de esta estrategia es el uso de la Firebase Emulator Suite, que permite simular de forma local y efímera servicios en la nube como Firestore y Firebase Authentication, sin incurrir en costos ni afectar entornos reales de producción.
-
-\begin{itemize}
-  \item \textbf{Pruebas unitarias de reglas de seguridad:} dado que el control de acceso a los datos en Firestore es un aspecto crítico del sistema, las Reglas de Seguridad son evaluadas a través de pruebas unitarias exhaustivas. Utilizando Vitest en conjunto con la librería \texttt{@firebase/rules-unit-testing}, la \textit{suite} despliega un entorno emulado y ejecuta baterías de pruebas tanto positivas como negativas, certificando iterativamente que usuarios no autenticados, o con roles insuficientes, no posean permisos de lectura, escritura o eliminación sobre datos ajenos.
-\end{itemize}
-
-De manera complementaria, durante una fase exploratoria se evaluó de forma puntual el \textit{framework} Playwright para pruebas \textit{end-to-end} sobre los emuladores locales, a fin de valorar su encaje en flujos de interfaz; no obstante, su adopción se mantuvo a un nivel mínimo y no llegó a consolidarse como parte de la \textit{suite} de pruebas del proyecto.
+La confiabilidad funcional y el blindaje de los datos se soportan en una estrategia de pruebas centrada en la validación de las reglas de seguridad, apoyada en la Firebase Emulator Suite para ejecutar las pruebas en un entorno local y efímero sin afectar entornos reales. Esta estrategia, junto con la validación manual sistemática sobre el entorno de \textit{staging} y la evaluación de pruebas \textit{end-to-end}, se aborda de forma dedicada en el capítulo de pruebas del sistema, por lo que aquí se la referencia sin reproducir su detalle.
 
 La integración de estas prácticas a lo largo del SDLC —desde el \textit{commit} inicial hasta la ejecución del \textit{pipeline} de CI— configura un sistema de aseguramiento de calidad que opera de forma continua y automatizada, reduciendo el riesgo de regresiones y garantizando que cada iteración del sistema mantenga los estándares de calidad y seguridad establecidos para la plataforma.
