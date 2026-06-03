@@ -10,7 +10,6 @@ compile_project:
 	biber informe-final-pasantia-jfmonsa
 	pdflatex informe-final-pasantia-jfmonsa.tex
 	pdflatex informe-final-pasantia-jfmonsa.tex
-	$(MAKE) clean_tex
 
 update_deps: update_dependencies
 

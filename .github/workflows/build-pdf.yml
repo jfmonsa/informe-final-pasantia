@@ -14,6 +14,8 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write # needed to create/update the release
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -31,3 +33,14 @@ jobs:
           name: informe-final-pasantia
           path: informe-final-pasantia-jfmonsa.pdf
           if-no-files-found: error
+
+      # Publish the latest PDF as a rolling "latest" release.
+      # Only on push to main (PRs / forks have a read-only token and can't release).
+      - name: Publish PDF release
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: latest
+          name: Informe Final de Pasantía (última versión)
+          body: PDF compilado automáticamente desde el último push a `main` (commit ${{ github.sha }}).
+          files: informe-final-pasantia-jfmonsa.pdf
