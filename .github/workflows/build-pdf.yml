@@ -7,11 +7,6 @@ on:
       - "**.tex"
       - "bibliografia.bib"
       - "img/**"
-      - "latex-packages.txt"
-      - "Dockerfile"
-      - "docker-compose.yml"
-      - "Makefile"
-      - ".github/workflows/build-pdf.yml"
   pull_request:
     branches: [main]
     paths: *latex_paths
