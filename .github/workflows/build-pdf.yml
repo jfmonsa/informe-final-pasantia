@@ -3,8 +3,18 @@ name: Build PDF
 on:
   push:
     branches: [main]
+    paths: &latex_paths
+      - "**.tex"
+      - "bibliografia.bib"
+      - "img/**"
+      - "latex-packages.txt"
+      - "Dockerfile"
+      - "docker-compose.yml"
+      - "Makefile"
+      - ".github/workflows/build-pdf.yml"
   pull_request:
     branches: [main]
+    paths: *latex_paths
   workflow_dispatch:
 
 concurrency:
@@ -27,7 +37,10 @@ jobs:
       - name: Build PDF (dockerized)
         run: docker compose run --rm --user root latex-dev make compile
 
+      # Artifact only on PRs (which can't create releases): lets reviewers
+      # download the PDF. On main the rolling release below holds the PDF instead.
       - name: Upload PDF artifact
+        if: github.event_name == 'pull_request'
         uses: actions/upload-artifact@v4
         with:
           name: informe-final-pasantia
