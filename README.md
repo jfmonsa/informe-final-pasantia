@@ -1,6 +1,6 @@
-# Propuesta de Proyecto de Grado
+# Informe Final de Pasantía
 
-Este repositorio contiene el código fuente LaTex de la mi propuesta de trabajo de grado "_Migración de la infraestructura de Firebase a AWS en Paralegales_"
+Este repositorio contiene el código fuente LaTex de mi informe final de pasantía "_Migración de la infraestructura de Firebase a AWS en Paralegales_"
 
 ---
 

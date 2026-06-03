@@ -6,10 +6,11 @@ clean_tex:
 compile: compile_project
 
 compile_project:
-	pdflatex anteproyecto-jfmonsa.tex
-	biber anteproyecto-jfmonsa
-	pdflatex anteproyecto-jfmonsa.tex
-	pdflatex anteproyecto-jfmonsa.tex
+	pdflatex informe-final-pasantia-jfmonsa.tex
+	biber informe-final-pasantia-jfmonsa
+	pdflatex informe-final-pasantia-jfmonsa.tex
+	pdflatex informe-final-pasantia-jfmonsa.tex
+	$(MAKE) clean_tex
 
 update_deps: update_dependencies
 

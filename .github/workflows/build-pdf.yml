@@ -1,0 +1,33 @@
+name: Build PDF
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # Builds the image from the Dockerfile (via the latex-dev compose service)
+      # and compiles the document with `make compile` (pdflatex -> biber -> pdflatex x2).
+      # --user root lets the container write the generated PDF back into the
+      # runner-owned workspace bind mount.
+      - name: Build PDF (dockerized)
+        run: docker compose run --rm --user root latex-dev make compile
+
+      - name: Upload PDF artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: informe-final-pasantia
+          path: informe-final-pasantia-jfmonsa.pdf
+          if-no-files-found: error
