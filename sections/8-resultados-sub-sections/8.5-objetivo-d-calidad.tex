@@ -2,7 +2,7 @@
 
 El cuarto objetivo apuntaba a consolidar prácticas automatizadas de aseguramiento de calidad a lo largo del ciclo de vida del desarrollo, de modo que la velocidad de cambio se sostuviera sin degradar la confiabilidad ni la seguridad del sistema. El resultado obtenido es un sistema de validación multicapa operativo, cuya evidencia se concentra en los artefactos del proceso de desarrollo.
 
-En los entornos locales, los \textit{hooks} de Git gestionados con Lefthook —\textit{pre-commit}, \textit{commit-msg} y \textit{post-merge}— intervienen el flujo de trabajo de manera efectiva: el formateo y el \textit{linting} se ejecutan sobre los archivos preparados, y los mensajes que no respetan el estándar \textit{Conventional Commits} son rechazados antes de ingresar al historial, como evidencia la \autoref{fig:resultado-commit-rechazado}.
+En los entornos locales, los \textit{hooks} de Git gestionados con Lefthook (\textit{pre-commit}, \textit{commit-msg} y \textit{post-merge}) intervienen el flujo de trabajo de manera efectiva: el formateo y el \textit{linting} se ejecutan sobre los archivos preparados, y los mensajes que no respetan el estándar \textit{Conventional Commits} son rechazados antes de ingresar al historial, como evidencia la \autoref{fig:resultado-commit-rechazado}.
 
 \newcommand\resultadoCommitCaption{\textit{Hook} de \textit{commit-msg} rechazando un mensaje que no cumple el estándar \textit{Conventional Commits}. \hspace{1em}}
 \begin{figure}[H]

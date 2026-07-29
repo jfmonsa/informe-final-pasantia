@@ -1,6 +1,6 @@
 \subsection{Sistema de Observabilidad y Telemetría}\label{subsec:observabilidad}
 
-La diversidad de flujos que componen Paralegales —síncronos y asíncronos, internos y dependientes de proveedores externos— exige un sistema transversal capaz de registrar, correlacionar y exponer el comportamiento del sistema en producción. Para atender esta necesidad, se conceptualizó e implementó un subsistema de observabilidad estructurada y telemetría que monitorea las integraciones de red con proveedores fundamentales, como los servicios de la Rama Judicial y la plataforma Samai del Consejo de Estado. El sistema opera de forma transversal, capturando eventos tanto en el BFF construido con Nuxt en el lado del servidor, como en la arquitectura de microservicios de \textit{backend} desplegados mediante AWS Lambda y programados en Go.
+Los flujos que componen Paralegales son de naturaleza muy distinta: unos síncronos y otros asíncronos, algunos internos y otros dependientes de proveedores externos. Esta diversidad exige un sistema transversal capaz de registrar, correlacionar y exponer el comportamiento del sistema en producción. Para atender esta necesidad, se conceptualizó e implementó un subsistema de observabilidad estructurada y telemetría que monitorea las integraciones de red con proveedores fundamentales, como los servicios de la Rama Judicial y la plataforma Samai del Consejo de Estado. El sistema opera de forma transversal, capturando eventos tanto en el BFF construido con Nuxt en el lado del servidor, como en la arquitectura de microservicios de \textit{backend} desplegados mediante AWS Lambda y programados en Go.
 
 \subsubsection{Arquitectura e Implementación}
 
@@ -11,7 +11,7 @@ Para garantizar la consistencia de los datos de telemetría, el sistema evita la
 \begin{itemize}
   \item \textbf{Capa de \textit{backend} (Go):} se desarrolló una envoltura sobre el cliente HTTP nativo que emite eventos estructurados por cada salto de red (inicio de la petición, finalización o error). Mediante contextos del lenguaje (\texttt{context.WithValue}), se inyectan metadatos vitales a los registros de forma segura y propagada, tales como el nombre del servicio, el entorno de ejecución, la operación en curso y los identificadores de trazabilidad (ID de solicitud e ID de correlación).
 
-  \item \textbf{Capa de \textit{frontend} (BFF en Nuxt):} se implementaron interceptores sobre la utilidad nativa de consumo de APIs. Mediante \textit{middlewares}, se extrae la información de la sesión del usuario para enriquecer la telemetría. Adicionalmente, se integraron mecanismos de saneamiento (\textit{sanitizers}) que garantizan que ninguna información confidencial —como contraseñas o \textit{tokens} de autorización— se filtre a los registros de texto.
+  \item \textbf{Capa de \textit{frontend} (BFF en Nuxt):} se implementaron interceptores sobre la utilidad nativa de consumo de APIs. Mediante \textit{middlewares}, se extrae la información de la sesión del usuario para enriquecer la telemetría. Adicionalmente, se integraron mecanismos de saneamiento (\textit{sanitizers}) que garantizan que ninguna información confidencial, como contraseñas o \textit{tokens} de autorización, se filtre a los registros de texto.
 \end{itemize}
 
 Ambas capas convergen en un modelo de esquema estandarizado que emite eventos en formato JSON puro. Este sobre de datos unifica la estructura de los registros de toda la aplicación, eliminando ambigüedades y facilitando su indexación automática en la infraestructura de la nube.
@@ -30,7 +30,7 @@ El procesamiento y la visualización de la telemetría se encuentran completamen
   \item \textbf{Panel de control centralizado:} la infraestructura despliega automáticamente un tablero de control (\textit{dashboard}) interactivo que consolida gráficos de series de tiempo y herramientas de análisis relacional (\textit{Logs Insights}), permitiendo ejecutar consultas estructuradas para identificar rápidamente la causa raíz de un error masivo.
 \end{itemize}
 
-La \autoref{fig:dashboard-observabilidad} muestra el panel de control de CloudWatch generado por la infraestructura, donde los gráficos de series de tiempo visualizan en tiempo real el volumen de peticiones, la tasa de errores y la distribución de latencias por servicio. La \autoref{fig:dashboard-observabilidad-alerts} complementa este panorama con la vista de alarmas configuradas, donde cada indicador refleja su estado actual —en alerta, en recuperación o saludable— de forma inmediatamente legible para el equipo de ingeniería.
+La \autoref{fig:dashboard-observabilidad} muestra el panel de control de CloudWatch generado por la infraestructura, donde los gráficos de series de tiempo visualizan en tiempo real el volumen de peticiones, la tasa de errores y la distribución de latencias por servicio. La \autoref{fig:dashboard-observabilidad-alerts} complementa este panorama con la vista de alarmas configuradas, donde cada indicador refleja de forma inmediatamente legible para el equipo de ingeniería su estado actual: en alerta, en recuperación o saludable.
 
 \newcommand\dashboardObservabilidadCaption{Panel de control de CloudWatch con métricas de tráfico, errores y latencia de los microservicios. \hspace{1em}}
 \begin{figure}[H]
@@ -56,6 +56,6 @@ La \autoref{fig:dashboard-observabilidad} muestra el panel de control de CloudWa
   \label{fig:telegram-alerts-observability}
 \end{figure}
 
-El impacto de este subsistema sobre la operación de la plataforma —la medición objetiva de la disponibilidad de los proveedores externos y la trazabilidad de errores por usuario— se valora como resultado del proyecto en el \autoref{subsec:resultado-c}.
+Este subsistema tuvo un impacto directo sobre la operación de la plataforma, al permitir la medición objetiva de la disponibilidad de los proveedores externos y la trazabilidad de errores por usuario; dicho impacto se valora como resultado del proyecto en el \autoref{subsec:resultado-c}.
 
 Así como la observabilidad protege el sistema en su estado de operación continua, las prácticas que se describen a continuación resguardan la integridad y la calidad del código a lo largo de su proceso de evolución.
