@@ -1,48 +1,78 @@
 \subsection{Síntesis y Limitaciones}\label{subsec:sintesis-pruebas}
 
-La estrategia de pruebas del proyecto se asienta en una asignación del esfuerzo guiada por el riesgo, antes que en una cobertura uniforme. La \autoref{tab:sintesis-pruebas} resume las capas de validación, su grado de automatización y la evidencia que las respalda.
+La estrategia de aseguramiento de calidad del proyecto se asienta en una asignación del esfuerzo guiada por el riesgo, antes que en una cobertura uniforme. La \autoref{tab:sintesis-pruebas} resume los mecanismos que la integran, el momento del ciclo de vida en que se ejecuta cada uno, su grado de automatización y la evidencia que los respalda.
 
-\newcommand\sintesisPruebasCaption{Síntesis de las capas de la estrategia de pruebas. \hspace{1em}}
+\newcommand\sintesisPruebasCaption{Mecanismos de aseguramiento de calidad, momento de ejecución y grado de automatización. \hspace{1em}}
 
 \begingroup
 \renewcommand{\arraystretch}{1.3}
-\begin{longtable}{|p{4.5cm}|p{3cm}|p{6.5cm}|}
+\begin{longtable}{|p{3.3cm}|p{2.4cm}|p{3.2cm}|p{5.1cm}|}
   \hline
-  \grayTableHeaderCell{4.5cm}{Capa de validación} &
-  \grayTableHeaderCell{3cm}{Automatización} &
-  \grayTableHeaderCell{6.5cm}{Evidencia / estado} \\
+  \grayTableHeaderCell{3.3cm}{Mecanismo} &
+  \grayTableHeaderCell{2.4cm}{Momento} &
+  \grayTableHeaderCell{3.2cm}{Automatización} &
+  \grayTableHeaderCell{5.1cm}{Evidencia / estado} \\
   \hline
   \endfirsthead
 
   \hline
-  \grayTableHeaderCell{4.5cm}{Capa de validación} &
-  \grayTableHeaderCell{3cm}{Automatización} &
-  \grayTableHeaderCell{6.5cm}{Evidencia / estado} \\
+  \grayTableHeaderCell{3.3cm}{Mecanismo} &
+  \grayTableHeaderCell{2.4cm}{Momento} &
+  \grayTableHeaderCell{3.2cm}{Automatización} &
+  \grayTableHeaderCell{5.1cm}{Evidencia / estado} \\
   \hline
   \endhead
 
-  \continuacionTablaFooter{3}
+  \continuacionTablaFooter{4}
   \endfoot
   \endlastfoot
 
+  \tableCell{Análisis estático y formato (ESLint, Stylelint, Prettier)} &
+  \tableCell{\textit{Pre-commit} y \textit{pull request}} &
+  \tableCell{Automatizado} &
+  \tableCell{\textit{Hook} local sobre archivos preparados y compuerta diferencial en el \textit{pipeline} de CI (\autoref{subsec:sdlc}).} \\
+  \hline
+
+  \tableCell{Convenciones del historial (Commitlint)} &
+  \tableCell{\textit{Commit-msg}} &
+  \tableCell{Automatizado} &
+  \tableCell{Mensajes que no cumplen \textit{Conventional Commits} son rechazados (\autoref{fig:resultado-commit-rechazado}).} \\
+  \hline
+
   \tableCell{Reglas de seguridad de Firestore} &
-  \tableCell{Automatizada} &
-  \tableCell{\textit{Suite} con Vitest sobre la \textit{Firebase Emulator Suite}; casos positivos y negativos por colección; ejecutada como compuerta obligatoria en el \textit{pipeline} de CI (\autoref{subsec:pruebas-ci}).} \\
+  \tableCell{Local y \textit{pull request}} &
+  \tableCell{Automatizado} &
+  \tableCell{Dieciséis casos con Vitest sobre la \textit{Firebase Emulator Suite}, positivos y negativos por colección; compuerta obligatoria en CI (\autoref{subsec:pruebas-ci}).} \\
+  \hline
+
+  \tableCell{Pruebas unitarias del \textit{backend} en Go} &
+  \tableCell{Local} &
+  \tableCell{Local, no en CI} &
+  \tableCell{Línea base preexistente sobre paquetes compartidos del repositorio de servicios, mantenida por el equipo de la empresa.} \\
+  \hline
+
+  \tableCell{Control del flujo de ramas} &
+  \tableCell{\textit{Pull request}} &
+  \tableCell{Automatizado} &
+  \tableCell{Toda integración hacia producción debe provenir de la rama de \textit{staging} (\autoref{subsec:pruebas-ci}).} \\
+  \hline
+
+  \tableCell{Pruebas \textit{end-to-end} de interfaz} &
+  \tableCell{Ejecución manual local} &
+  \tableCell{Sin integrar} &
+  \tableCell{Base funcional con Playwright (POM, \textit{fixtures} y dos recorridos de autenticación); no incorporada como compuerta por costo de mantenimiento (\autoref{subsec:evaluacion-e2e}).} \\
   \hline
 
   \tableCell{Flujos funcionales de extremo a extremo} &
+  \tableCell{Previo a promover a producción} &
   \tableCell{Manual} &
   \tableCell{Validación sistemática y exploratoria en \textit{staging}; casos documentados (\autoref{tab:casos-manuales}).} \\
   \hline
 
-  \tableCell{Pruebas \textit{end-to-end} de interfaz} &
-  \tableCell{Exploratoria, no consolidada} &
-  \tableCell{Base montada con Playwright (POM y \textit{fixtures}); no adoptada por costo-beneficio.} \\
-  \hline
-
-  \tableCell{Validación estática (\textit{lint} / formato)} &
-  \tableCell{Automatizada} &
-  \tableCell{Compuerta obligatoria en el \textit{pipeline} de CI sobre archivos modificados (\autoref{subsec:sdlc}).} \\
+  \tableCell{Observabilidad y alertas} &
+  \tableCell{Posdespliegue} &
+  \tableCell{Automatizado} &
+  \tableCell{Telemetría estructurada, correlación de eventos y alertas proactivas sobre el sistema en producción (\autoref{subsec:resultado-c}).} \\
   \hline
 
   \caption[\sintesisPruebasCaption]{\sintesisPruebasCaption Fuente: Elaboración propia.}
@@ -50,10 +80,20 @@ La estrategia de pruebas del proyecto se asienta en una asignación del esfuerzo
 \end{longtable}
 \endgroup
 
+La lectura conjunta de la tabla precisa el sentido en que este trabajo emplea la noción de aseguramiento de calidad: se trata de ocho mecanismos distribuidos a lo largo del ciclo de vida, y no de una única \textit{suite} de pruebas. Cuatro de ellos actúan como compuertas automáticas capaces de bloquear la integración de un cambio, tres están automatizados sin operar como compuerta y uno es manual. La cobertura, no obstante, es deliberadamente desigual, y esa desigualdad es el objeto del apartado siguiente.
+
 \subsubsection{Limitaciones}
 
-El reconocimiento explícito de las limitaciones es parte del rigor con que se presenta la estrategia: la automatización se concentra en las reglas de seguridad, mientras que la lógica de negocio del lado del servidor y los flujos de interfaz carecen de una \textit{suite} automatizada equivalente y dependen de la validación manual; esta, a su vez, recae en el esfuerzo humano, lo que la hace sensible a la disponibilidad del equipo y menos exhaustiva ante regresiones sutiles. Por su parte, la automatización de los flujos \textit{end-to-end} quedó en estado exploratorio.
+El reconocimiento explícito de las limitaciones es parte del rigor con que se presenta la estrategia, y en este caso son de tres órdenes.
+
+La primera y más significativa es que \textbf{la automatización construida en el marco de este trabajo se concentra en las reglas de seguridad}. La lógica de negocio reubicada del lado del servidor, que constituye el aporte central del proyecto, no fue acompañada de una \textit{suite} de pruebas unitarias propia: se apoya en la línea base en Go preexistente del repositorio de servicios, cuya autoría corresponde mayoritariamente al equipo de la empresa y que además no se ejecuta dentro del \textit{pipeline} de integración continua. En consecuencia, una regresión en esa capa no queda bloqueada de forma automática antes de integrarse, sino que depende de la ejecución local de las pruebas y de la validación manual en \textit{staging}.
+
+La segunda es que \textbf{la validación de los flujos funcionales recae en el esfuerzo humano}. Aunque sistemática y documentada, la verificación en \textit{staging} es sensible a la disponibilidad del equipo y menos exhaustiva ante regresiones sutiles que una \textit{suite} automatizada ejecutada en cada integración. La base de pruebas \textit{end-to-end} existe pero no cubre esa función, al no estar integrada como compuerta.
+
+La tercera es de \textbf{medición}: no se instrumentó un indicador de cobertura de código ni un umbral mínimo exigible, de modo que el grado de verificación de las capas automatizadas se afirma de forma cualitativa y no se cuantifica ni se vigila su evolución en el tiempo.
+
+Conviene delimitar con precisión el alcance de estas limitaciones. Ninguna de ellas afecta a la capa donde un fallo tendría consecuencias directas sobre la confidencialidad de los datos de los usuarios, que es la que quedó cubierta por pruebas automatizadas y compuertas obligatorias. Las tres afectan a capas donde el modo de fallo dominante es funcional y detectable mediante la validación en \textit{staging} y la telemetría de producción. Esta asimetría es el resultado buscado por la asignación de esfuerzo guiada por el riesgo (\autoref{subsec:enfoque-pruebas}), no una consecuencia imprevista de ella.
 
 \subsubsection{Trabajo futuro}
 
-De estas limitaciones se derivan líneas de mejora directas: (i) optimizar la ejecución de la \textit{suite} de reglas en CI mediante el cacheo del emulador y la publicación de artefactos de cobertura; (ii) consolidar la \textit{suite} \textit{end-to-end} con Playwright sobre la base ya construida, priorizando los flujos críticos de mayor estabilidad; y (iii) extender la automatización hacia la lógica de negocio del lado del servidor. Estas mejoras trasladarían parte de la carga de validación manual hacia mecanismos automáticos y continuos, fortaleciendo el aseguramiento de calidad a medida que el sistema crece.
+De estas limitaciones se derivan líneas de mejora directas y de costo acotado, ordenadas por la relación entre esfuerzo requerido y garantía obtenida: (i) incorporar la ejecución de la \textit{suite} en Go existente al \textit{pipeline} del repositorio de servicios, lo que convierte en compuerta automática una batería de pruebas ya escrita sin necesidad de redactar casos nuevos; (ii) activar los \textit{hooks} de validación local en ese mismo repositorio, hoy configurados pero inactivos, para extender al \textit{backend} el análisis estático que el \textit{frontend} ya aplica; (iii) publicar artefactos de cobertura y fijar un umbral mínimo que impida su degradación progresiva; (iv) programar la ejecución de la \textit{suite} \textit{end-to-end} al margen del camino crítico de integración, por ejemplo de forma nocturna, para aprovechar la base existente sin trasladar su intermitencia al proceso del equipo; y (v) extender la automatización con pruebas unitarias sobre la lógica de negocio reubicada al lado del servidor, empezando por los flujos de mayor riesgo. Estas mejoras trasladarían parte de la carga de validación manual hacia mecanismos automáticos y continuos, fortaleciendo el aseguramiento de calidad a medida que el sistema crece.
