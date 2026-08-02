@@ -18,7 +18,7 @@ Para automatizar y hacer obligatorio el cumplimiento de estas reglas antes de qu
 
 \subsubsection{Integración Continua}
 
-Las pipelines de integración continua (\textit{Continuous Integration}, CI) están orquestadas de manera declarativa a través de GitHub Actions. El flujo principal de integración (\texttt{ci.yml}) está diseñado para ejecutarse de forma obligatoria frente a (\textit{Pull Requests}) dirigidas a ramas protegidas, realizando validaciones estrictas con tiempos de procesamiento optimizados:
+Las pipelines de integración continua (\textit{Continuous Integration}, CI) están orquestadas de manera declarativa a través de GitHub Actions. El flujo principal de integración (\texttt{ci.yml}) está diseñado para ejecutarse de forma obligatoria frente a las \textit{pull requests} dirigidas a ramas protegidas, realizando validaciones estrictas con tiempos de procesamiento optimizados:
 
 \begin{itemize}
   \item \textbf{Configuración de entorno y caché:} el \textit{pipeline} aprovisiona contenedores con Node.js e instala eficientemente las dependencias utilizando \texttt{pnpm}, apoyándose en el sistema de caché nativo de GitHub para reutilizar los módulos descargados en ejecuciones previas y reducir la duración total del proceso.
