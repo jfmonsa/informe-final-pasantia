@@ -41,3 +41,5 @@ paralegales-ui/src
 \end{figure}
 
 En el \textit{backend}, las funciones Lambda adoptaron la separación \textit{Handler--Service--Repository} con repositorios definidos por interfaz, expuestas de forma unificada a través de Amazon API Gateway (\autoref{fig:api-gateway}). Este desacoplamiento habilita tanto la sustitución del motor de persistencia sin tocar la lógica de negocio como la validación de dicha lógica de forma aislada; la verificación de ese desacoplamiento mediante pruebas unitarias con implementaciones \textit{mock} del repositorio se documenta en el capítulo dedicado a las pruebas del sistema.
+
+En los términos del marco teórico, este resultado corresponde al pago de la partida de deuda de mayor interés del diagnóstico inicial. El acoplamiento excesivo y la difusión de responsabilidades entre capas son deuda estructuralmente invisible, cuyo costo no se manifestaba como fallos evidentes sino como lentitud para incorporar cambios \cite{Kruchten2012}; su amortización selectiva es la que restituye al sistema la capacidad de seguir evolucionando.

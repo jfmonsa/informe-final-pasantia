@@ -22,7 +22,7 @@ La configuración de Nuxt integra \textit{auto-imports} para reducir la verbosid
 
 \subsubsection{Capa \textit{Backend}: Patrón Handler, Service y Repository}
 
-La capa de servicios en \texttt{paralegales-services} fue refactorizada para adoptar una separación clara de responsabilidades mediante el patrón \textbf{Handler -- Service Struct -- Abstract Repository}. Este diseño fue motivado originalmente por una estrategia de migración de base de datos (de Firestore hacia AWS DynamoDB), aunque dicha migración no se concretó finalmente por decisiones de producto y empresa. El patrón resultante, no obstante, aportó beneficios inmediatos de legibilidad, testabilidad y mantenibilidad que justifican su adopción con independencia del caso de uso de migración.
+La capa de servicios en \texttt{paralegales-services} fue refactorizada para adoptar una separación clara de responsabilidades mediante el patrón \textbf{\textit{Handler--Service--Repository}}. Este diseño fue motivado originalmente por una estrategia de migración de base de datos (de Firestore hacia AWS DynamoDB), aunque dicha migración no se concretó finalmente por decisiones de producto y empresa. El patrón resultante, no obstante, aportó beneficios inmediatos de legibilidad, testabilidad y mantenibilidad que justifican su adopción con independencia del caso de uso de migración.
 
 Cada función Lambda del sistema consta típicamente de tres componentes diferenciados:
 

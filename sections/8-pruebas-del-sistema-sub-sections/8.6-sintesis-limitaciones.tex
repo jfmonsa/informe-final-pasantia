@@ -42,7 +42,7 @@ La estrategia de aseguramiento de calidad del proyecto se asienta en una asignac
   \tableCell{Reglas de seguridad de Firestore} &
   \tableCell{Local y \textit{pull request}} &
   \tableCell{Automatizado} &
-  \tableCell{Dieciséis casos con Vitest sobre la \textit{Firebase Emulator Suite}, positivos y negativos por colección; compuerta obligatoria en CI (\autoref{subsec:pruebas-ci}).} \\
+  \tableCell{Dieciséis casos con Vitest sobre la \textit{Firebase Emulator Suite}, positivos y negativos por colección; integrada al \textit{pipeline} de CI (\autoref{subsec:pruebas-ci}).} \\
   \hline
 
   \tableCell{Pruebas unitarias del \textit{backend} en Go} &
@@ -80,7 +80,7 @@ La estrategia de aseguramiento de calidad del proyecto se asienta en una asignac
 \end{longtable}
 \endgroup
 
-La lectura conjunta de la tabla precisa el sentido en que este trabajo emplea la noción de aseguramiento de calidad: se trata de ocho mecanismos distribuidos a lo largo del ciclo de vida, y no de una única \textit{suite} de pruebas. Cuatro de ellos actúan como compuertas automáticas capaces de bloquear la integración de un cambio, tres están automatizados sin operar como compuerta y uno es manual. La cobertura, no obstante, es deliberadamente desigual, y esa desigualdad es el objeto del apartado siguiente.
+La lectura conjunta de la tabla precisa el sentido en que este trabajo emplea la noción de aseguramiento de calidad: se trata de ocho mecanismos distribuidos a lo largo del ciclo de vida, y no de una única \textit{suite} de pruebas. Cuatro de ellos actúan como compuertas automáticas capaces de interrumpir la integración de un cambio, tres están automatizados sin operar como compuerta y uno es manual. La cobertura, no obstante, es deliberadamente desigual, y esa desigualdad es el objeto del apartado siguiente.
 
 \subsubsection{Limitaciones}
 
@@ -92,7 +92,7 @@ La segunda es que \textbf{la validación de los flujos funcionales recae en el e
 
 La tercera es de \textbf{medición}: no se instrumentó un indicador de cobertura de código ni un umbral mínimo exigible, de modo que el grado de verificación de las capas automatizadas se afirma de forma cualitativa y no se cuantifica ni se vigila su evolución en el tiempo.
 
-Conviene delimitar con precisión el alcance de estas limitaciones. Ninguna de ellas afecta a la capa donde un fallo tendría consecuencias directas sobre la confidencialidad de los datos de los usuarios, que es la que quedó cubierta por pruebas automatizadas y compuertas obligatorias. Las tres afectan a capas donde el modo de fallo dominante es funcional y detectable mediante la validación en \textit{staging} y la telemetría de producción. Esta asimetría es el resultado buscado por la asignación de esfuerzo guiada por el riesgo (\autoref{subsec:enfoque-pruebas}), no una consecuencia imprevista de ella.
+Conviene delimitar con precisión el alcance de estas limitaciones. Ninguna de ellas afecta a la capa donde un fallo tendría consecuencias directas sobre la confidencialidad de los datos de los usuarios, que es la que quedó cubierta por pruebas automatizadas y por una compuerta del \textit{pipeline} de integración (\autoref{subsec:pruebas-ci}). Las tres afectan a capas donde el modo de fallo dominante es funcional y detectable mediante la validación en \textit{staging} y la telemetría de producción. Esta asimetría es el resultado buscado por la asignación de esfuerzo guiada por el riesgo (\autoref{subsec:enfoque-pruebas}), no una consecuencia imprevista de ella.
 
 \subsubsection{Trabajo futuro}
 
