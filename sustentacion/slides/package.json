@@ -1,0 +1,19 @@
+{
+  "name": "sustentacion-paralegales",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "slidev --open",
+    "build": "slidev build",
+    "export": "slidev export --output dist/sustentacion.pdf",
+    "export:preview": "slidev export --output dist/sustentacion-preview.pdf"
+  },
+  "dependencies": {
+    "@slidev/cli": "latest",
+    "@slidev/theme-default": "latest",
+    "vue": "latest"
+  },
+  "devDependencies": {
+    "playwright-chromium": "latest"
+  }
+}
