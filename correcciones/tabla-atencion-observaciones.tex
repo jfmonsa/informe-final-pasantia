@@ -1,0 +1,206 @@
+% =====================================================================
+% Documento independiente: tabla de atención a las observaciones
+% del evaluador del trabajo de grado. No forma parte del informe final.
+% Requiere dos pasadas de compilación para que la tabla fije sus anchos.
+% =====================================================================
+\documentclass[11pt]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+% es-noshorthands: necesario para que las comillas rectas (") de las
+% transcripciones textuales del evaluador se compongan tal cual y no las
+% capture el mecanismo de atajos de babel-spanish.
+\usepackage[spanish,es-noshorthands]{babel}
+\usepackage[landscape,letterpaper,top=1.8cm,bottom=2.2cm,left=1.6cm,right=1.6cm]{geometry}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{ragged2e}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{colortbl}
+\usepackage[hidelinks]{hyperref}
+
+% Columnas de párrafo con alineación a la izquierda y sin partición agresiva
+\newcolumntype{C}[1]{>{\RaggedRight\arraybackslash}p{#1}}
+\newcolumntype{Z}[1]{>{\centering\arraybackslash}p{#1}}
+
+\definecolor{gristabla}{gray}{0.87}
+
+\setlength{\LTcapwidth}{\textwidth}
+\renewcommand{\arraystretch}{1.18}
+
+\pagestyle{plain}
+
+\newcommand{\titulotg}{Evolución arquitectónica y aseguramiento de calidad de la plataforma Paralegales mediante una arquitectura híbrida Firebase y AWS}
+\newcommand{\autortg}{Juan Felipe Monsalve Vargas}
+% Fecha fijada de forma explícita: el contenedor de compilación corre en UTC
+% y \today adelantaría un día.
+\newcommand{\fecha}{1 de agosto de 2026}
+
+\begin{document}
+
+\begin{center}
+  {\Large\bfseries Tabla de atención a las observaciones del evaluador}\\[0.7em]
+  {\normalsize\itshape \titulotg}\\[0.9em]
+  {\normalsize \autortg}\\[0.3em]
+  {\small Universidad del Valle, Escuela de Ingeniería de Sistemas y Computación, Sede (06) Tuluá}\\[0.3em]
+  {\small \fecha}
+\end{center}
+
+\vspace{0.6em}
+
+\noindent
+Este documento relaciona cada una de las siete observaciones emitidas por el evaluador con la corrección
+efectivamente aplicada al informe final y con el lugar donde puede verificarse. Los números de página
+corresponden a la numeración impresa en el pie de página del informe. Las observaciones cuarta y quinta
+se presentan en una sola fila, porque recaen sobre el mismo conjunto de figuras y se atendieron de forma
+conjunta. Cuando una observación quedó atendida solo en parte, se declara como tal.
+
+\vspace{0.8em}
+
+\begingroup
+\small
+\begin{longtable}{@{}Z{1.0cm} C{6.7cm} C{9.2cm} C{6.2cm}@{}}
+  \toprule
+  \rowcolor{gristabla}
+  \textbf{N.\textsuperscript{o}} &
+  \textbf{Observación del evaluador} &
+  \textbf{Corrección aplicada} &
+  \textbf{Ubicación en el informe} \\
+  \midrule
+  \endfirsthead
+
+  \multicolumn{4}{@{}l@{}}{\small\itshape (continuación de la página anterior)}\\[0.3em]
+  \toprule
+  \rowcolor{gristabla}
+  \textbf{N.\textsuperscript{o}} &
+  \textbf{Observación del evaluador} &
+  \textbf{Corrección aplicada} &
+  \textbf{Ubicación en el informe} \\
+  \midrule
+  \endhead
+
+  \midrule
+  \multicolumn{4}{@{}r@{}}{\small\itshape (continúa en la página siguiente)}\\
+  \endfoot
+
+  \bottomrule
+  \endlastfoot
+
+  % ---------------------------------------------------------------- 1
+  1 &
+  «EL RESUMEN ESTA MUY LARGO Y HAY MUCHAS PALABRAS CLAVE. AÑADAN EL ABSTRACT TAMBIEN» &
+  Atendida. El resumen se condensó de cuatro párrafos a uno solo de 163 palabras, conservando el
+  planteamiento del problema, la estrategia adoptada y el resultado obtenido. Las palabras clave se
+  redujeron de ocho a cinco, dejando las que identifican los ejes del trabajo. Se añadió el
+  \textit{Abstract} en inglés, con sus \textit{Keywords} correspondientes. &
+  Página 1 (Resumen y «Palabras clave») y página 2 (\textit{Abstract} y \textit{Keywords}), en las
+  páginas preliminares. \\
+  \midrule
+
+  % ---------------------------------------------------------------- 2
+  2 &
+  «en el documento se redacta mucho con guiones " - " eso no es una escritura natural para nosotros,
+  y suele ser usado por la IA, revisen la escritura de todo el documento» &
+  Atendida. Se revisó la redacción del documento completo, capítulo por capítulo, y se eliminó el uso
+  de la raya para intercalar aclaraciones, que era el hábito que el evaluador señaló. Los pasajes
+  afectados, alrededor de cincuenta y cinco, se reescribieron variando el recurso según lo que pedía
+  cada frase: comas cuando la aclaración era breve, paréntesis cuando convenía apartarla del hilo
+  principal, dos puntos cuando introducía una enumeración y, en varios casos, la división de la oración
+  en dos. Se conservaron únicamente los guiones que corresponden a palabras compuestas y al nombre de
+  un patrón de arquitectura. Hoy no queda en el informe ningún inciso construido de ese modo. &
+  Corrección transversal a todo el documento, apreciable en cualquiera de sus capítulos. \\
+  \midrule
+
+  % ---------------------------------------------------------------- 3
+  3 &
+  «MARCO TEORICO DE UNA SOLA SECCION?» &
+  Atendida. El marco teórico pasó de una a tres subsecciones: «Teoría General de Sistemas»
+  (preexistente), «Leyes de la evolución del software» (Lehman) y «Teoría de la deuda técnica»
+  (Cunningham; Kruchten, Nord y Ozkaya), con las referencias correspondientes añadidas a la
+  bibliografía. Cada subsección nueva cierra con su aplicación al caso Paralegales. Además, ese marco
+  se invoca posteriormente en el capítulo de resultados (objetivo B) y en las conclusiones, de modo
+  que gobierna el resto del documento y no queda aislado. &
+  Subsección 5.2 «Marco Teórico», páginas 26 a 29: «Leyes de la evolución del software» en la página
+  27 y «Teoría de la deuda técnica» en la página 28. Invocación posterior en el objetivo B, páginas 90
+  y 91 («partidas de deuda de mayor interés», «deuda estructuralmente invisible»), y en las
+  conclusiones, página 100 («programa de tipo E», «pago selectivo»). \\
+  \midrule
+
+  % ---------------------------------------------------------------- 4 y 5
+  4 y 5 &
+  «LOS PANTALLAZOS SE PUEDEN MEJORAR, REVISARLOS TODOS»
+
+  \vspace{0.5em}
+  «en graficas como esta, o la 33, intuyo que se muestran datos con usuarios reales. Tener cuidado con
+  los datos personales de la gente, sobre todo por cuidar a la empresa, revisen esto» &
+  Ambas observaciones se atendieron de forma conjunta, al recaer sobre el mismo conjunto de figuras. Se
+  revisaron una por una todas las capturas del informe, valorando en cada caso tanto lo que aportaban
+  al argumento como la información que dejaban a la vista. De esa revisión resultó la intervención de
+  diez figuras, en las que se cubrieron los datos que permitían identificar a personas concretas:
+  nombres de partes de procesos judiciales, correos de terceros, alias y nombres de miembros del
+  equipo, avatares con rostro, identificadores de usuario y de pago, y credenciales de acceso a
+  servicios. Se conservaron, en cambio, los datos de registro público, como los números de radicado,
+  las entidades y los juzgados, por ser parte del objeto del sistema y no información personal
+  sensible. Queda pendiente extender ese mismo tratamiento a la Figura 3 y suprimir el identificador
+  de cuenta y el principal de acceso que aún se aprecian en las Figuras 6, 27 y 28, así como los
+  correos del autor en las Figuras 10 y 13. &
+  Figuras intervenidas: apreciable en las figuras del informe, comparadas con la versión entregada
+  previamente.
+
+  \vspace{0.5em}
+  Pendiente: Figura 3 (página 43), Figura 6 (página 50), Figura 10 (página 54), Figura 13 (página 57),
+  Figura 27 (página 73) y Figura 28 (página 74). \\
+  \midrule
+
+  % ---------------------------------------------------------------- 6
+  6 &
+  «segun entiendo, la automatización se concentra solo en las reglas de seguridad de Firestore. Para
+  un trabajo cuyo título incluye "aseguramiento de calidad" como eje central considero que se podria
+  mejorar» &
+  Atendida. En el marco conceptual se definió «aseguramiento de calidad» como proceso, según la norma
+  IEEE 730 y el modelo ISO/IEC 25010, y no como una batería de pruebas. El capítulo se reencuadró en
+  ocho mecanismos distribuidos a lo largo del ciclo de vida, acompañados de una tabla matriz que
+  registra, para cada uno, el momento de ejecución, el grado de automatización y la evidencia; cuatro
+  de esos mecanismos operan como compuertas automáticas. Se corrigió la afirmación de que el
+  \textit{backend} carecía de pruebas, atribuyendo la línea base en Go al equipo de la empresa. Las
+  pruebas \textit{end-to-end} pasaron de declararse «no consolidadas» a «implementadas, no
+  integradas». La observabilidad se incorporó como control de calidad posdespliegue. Las limitaciones
+  y el trabajo futuro se reescribieron en tres órdenes. &
+  Definición con IEEE 730 e ISO/IEC 25010 en el marco conceptual, subsección 5.1.11, página 25.
+  Subsección 9.1 «Enfoque y Estrategia de Aseguramiento de Calidad», página 77. Tabla 4, «Mecanismos
+  de aseguramiento de calidad, momento de ejecución y grado de automatización», página 85. Pruebas
+  \textit{end-to-end} en la subsección 9.4, página 82. Limitaciones y trabajo futuro en las páginas 85
+  y 86. \\
+  \midrule
+
+  % ---------------------------------------------------------------- 7
+  7 &
+  «Se menciona SRE y menciona explícitamente MTTR y error budgets en el marco teórico, porque no se
+  reporta ningún dato con estos indicadores?» &
+  Atendida. En el marco conceptual se delimitó qué se toma de la práctica de SRE (instrumentación,
+  indicadores de nivel de servicio y alerta por umbral) y qué no se toma (SLOs, \textit{error budgets}
+  y MTTR). En el capítulo de resultados se añadió una tabla con los cinco indicadores efectivamente
+  implementados (\texttt{RJURequestCount}, \texttt{RJU5xxCount}, \texttt{RJU4xxCount},
+  \texttt{RJULatencyMs} y \texttt{RJUStatusDistribution}) y las dos compuertas de alerta con sus
+  umbrales y ventanas, verificados contra la plantilla de CloudFormation. La ausencia de SLOs,
+  \textit{error budgets} y MTTR se declara como limitación, indicando su causa, y como trabajo futuro,
+  con eco en las conclusiones. &
+  Delimitación de lo tomado de SRE en el marco conceptual, subsección 5.1.9, página 24. Tabla 5,
+  «Indicadores de nivel de servicio implementados sobre las integraciones externas, umbrales
+  configurados y acciones asociadas», páginas 92 y 93. Declaración de la limitación y del trabajo
+  futuro en la página 94. Eco en las conclusiones, página 99. \\
+
+\end{longtable}
+\endgroup
+
+\vspace{0.4em}
+
+\noindent
+\small
+\textbf{Nota sobre la numeración.} Las páginas citadas son las impresas en el pie de página del
+informe. Si se navega el documento digital, cuyo conteo empieza en la portada, cada una de esas páginas
+equivale a la posición dos unidades mayor: por ejemplo, la página impresa 92 se abre en la posición 94.
+
+\end{document}
