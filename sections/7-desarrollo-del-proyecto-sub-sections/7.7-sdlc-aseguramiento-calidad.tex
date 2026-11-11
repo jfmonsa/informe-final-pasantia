@@ -18,7 +18,7 @@ Para automatizar y hacer obligatorio el cumplimiento de estas reglas antes de qu
 
 \subsubsection{Integración Continua}
 
-Las pipelines de integración continua (\textit{Continuous Integration}, CI) están orquestadas de manera declarativa a través de GitHub Actions. El flujo principal de integración (\texttt{ci.yml}) está diseñado para ejecutarse de forma obligatoria frente a (\textit{Pull Requests}) dirigidas a ramas protegidas, realizando validaciones estrictas con tiempos de procesamiento optimizados:
+Las pipelines de integración continua (\textit{Continuous Integration}, CI) están orquestadas de manera declarativa a través de GitHub Actions. El flujo principal de integración (\texttt{ci.yml}) está diseñado para ejecutarse de forma obligatoria frente a las \textit{pull requests} dirigidas a ramas protegidas, realizando validaciones estrictas con tiempos de procesamiento optimizados:
 
 \begin{itemize}
   \item \textbf{Configuración de entorno y caché:} el \textit{pipeline} aprovisiona contenedores con Node.js e instala eficientemente las dependencias utilizando \texttt{pnpm}, apoyándose en el sistema de caché nativo de GitHub para reutilizar los módulos descargados en ejecuciones previas y reducir la duración total del proceso.
@@ -30,4 +30,4 @@ Las pipelines de integración continua (\textit{Continuous Integration}, CI) est
 
 La confiabilidad funcional y el blindaje de los datos se soportan en una estrategia de pruebas centrada en la validación de las reglas de seguridad, apoyada en la Firebase Emulator Suite para ejecutar las pruebas en un entorno local y efímero sin afectar entornos reales. Esta estrategia, junto con la validación manual sistemática sobre el entorno de \textit{staging} y la evaluación de pruebas \textit{end-to-end}, se aborda de forma dedicada en el capítulo de pruebas del sistema, por lo que aquí se la referencia sin reproducir su detalle.
 
-La integración de estas prácticas a lo largo del SDLC —desde el \textit{commit} inicial hasta la ejecución del \textit{pipeline} de CI— configura un sistema de aseguramiento de calidad que opera de forma continua y automatizada, reduciendo el riesgo de regresiones y garantizando que cada iteración del sistema mantenga los estándares de calidad y seguridad establecidos para la plataforma.
+La integración de estas prácticas a lo largo del SDLC, desde el \textit{commit} inicial hasta la ejecución del \textit{pipeline} de CI, configura un sistema de aseguramiento de calidad que opera de forma continua y automatizada, reduciendo el riesgo de regresiones y garantizando que cada iteración del sistema mantenga los estándares de calidad y seguridad establecidos para la plataforma.

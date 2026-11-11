@@ -1,0 +1,377 @@
+/* ============================================================
+   Tema institucional Univalle — sustentación de trabajo de grado
+   Rojo vinotinto sobrio sobre fondo blanco, look formal académico.
+   ============================================================ */
+
+:root {
+  --uv-red: #a6192e;        /* vinotinto institucional sobrio (ref. #CD1F32) */
+  --uv-red-bright: #cd1f32; /* acento puntual */
+  --uv-red-dark: #7e1422;
+  --uv-red-tint: #f7e9eb;   /* fondo de cajas de énfasis */
+  --uv-ink: #1f2328;        /* texto principal */
+  --uv-gray: #5a5f66;       /* texto secundario / pie */
+  --uv-gray-light: #e6e8ea; /* bordes suaves */
+  --uv-box-blue: #2b4a6f;   /* acentos de la cuadrícula 2x2 */
+  --uv-box-teal: #1f6f5f;
+  --uv-box-ochre: #8a6d1f;
+}
+
+/* ---------- Base ---------- */
+
+.slidev-layout {
+  font-family: 'Liberation Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  color: var(--uv-ink);
+  background: #ffffff;
+  font-size: 1.05rem;
+  line-height: 1.55;
+  padding: 2.4rem 3rem 3rem 3rem;
+}
+
+/* Título de slide: acento rojo institucional (barra bajo el título) */
+.slidev-layout h1 {
+  color: var(--uv-red-dark);
+  font-size: 1.7rem;
+  font-weight: 700;
+  line-height: 1.25;
+  border-bottom: 3px solid var(--uv-red);
+  padding-bottom: 0.35rem;
+  margin-bottom: 1.1rem;
+}
+
+.slidev-layout h2 {
+  color: var(--uv-red-dark);
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.slidev-layout h3 {
+  color: var(--uv-ink);
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.slidev-layout strong {
+  color: var(--uv-red-dark);
+  font-weight: 700;
+}
+
+.slidev-layout a {
+  color: var(--uv-red);
+}
+
+/* Bullets sobrios */
+.slidev-layout ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.slidev-layout ul > li {
+  position: relative;
+  padding-left: 1.1rem;
+  margin-bottom: 0.45rem;
+}
+
+.slidev-layout ul > li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.55em;
+  width: 0.45rem;
+  height: 0.45rem;
+  background: var(--uv-red);
+}
+
+.slidev-layout ul ul > li::before {
+  background: var(--uv-gray);
+  width: 0.35rem;
+  height: 0.35rem;
+}
+
+.slidev-layout ol {
+  padding-left: 1.4rem;
+}
+
+/* Tablas formales */
+.slidev-layout table {
+  font-size: 0.9rem;
+  border-collapse: collapse;
+}
+
+.slidev-layout th {
+  background: var(--uv-red);
+  color: #fff;
+  font-weight: 700;
+  padding: 0.35rem 0.7rem;
+  border: none;
+}
+
+.slidev-layout td {
+  padding: 0.3rem 0.7rem;
+  border-bottom: 1px solid var(--uv-gray-light);
+}
+
+.slidev-layout tr:nth-child(even) td {
+  background: #fafafa;
+}
+
+/* Figuras y captions (patrón: *texto en cursiva* bajo la imagen) */
+.slidev-layout img {
+  max-width: 100%;
+  border: 1px solid var(--uv-gray-light);
+  border-radius: 2px;
+}
+
+/* ---------- Pie de página (ver global-top.vue) ---------- */
+
+.deck-footer {
+  pointer-events: none;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1.7rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 3rem;
+  font-size: 0.68rem;
+  color: var(--uv-gray);
+  border-top: 1px solid var(--uv-gray-light);
+  background: #fff;
+}
+
+.deck-footer::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 4px;
+  background: var(--uv-red);
+}
+
+.deck-footer .footer-page {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- Portada (layout cover) ---------- */
+
+.slidev-layout.uv-cover {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 0.4rem;
+  padding: 2.2rem 4.5rem;
+}
+
+.slidev-layout.uv-cover .cover-escudo {
+  width: 4.2rem;
+  border: none;
+  margin-bottom: 0.6rem;
+}
+
+.slidev-layout.uv-cover h1 {
+  font-size: 1.45rem;
+  line-height: 1.35;
+  border-bottom: none;
+  padding-bottom: 0;
+  margin-bottom: 0.2rem;
+  color: var(--uv-red-dark);
+}
+
+/* barra corta bajo el título, centrada */
+.slidev-layout.uv-cover h1::after {
+  content: '';
+  display: block;
+  width: 6rem;
+  height: 3px;
+  background: var(--uv-red);
+  margin: 0.7rem auto 0 auto;
+}
+
+.slidev-layout.uv-cover .cover-subtitle {
+  font-size: 1.02rem;
+  color: var(--uv-gray);
+  margin-bottom: 1.1rem;
+}
+
+.slidev-layout.uv-cover .cover-author {
+  font-size: 1rem;
+  margin-bottom: 1.1rem;
+}
+
+.slidev-layout.uv-cover .cover-author p {
+  margin: 0.15rem 0;
+}
+
+.slidev-layout.uv-cover .cover-institution {
+  font-size: 0.88rem;
+  color: var(--uv-gray);
+}
+
+.slidev-layout.uv-cover .cover-institution p {
+  margin: 0.1rem 0;
+}
+
+/* ---------- Separador de sección (layout section-divider) ---------- */
+
+.slidev-layout.uv-section-divider h1 {
+  margin-bottom: 1.4rem;
+}
+
+.slidev-layout.uv-section-divider ol.divider-list {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  counter-reset: seccion;
+  font-size: 1.12rem;
+}
+
+.slidev-layout.uv-section-divider ol.divider-list li {
+  counter-increment: seccion;
+  color: #9aa0a6;
+  display: flex;
+  align-items: baseline;
+  gap: 0.7rem;
+}
+
+.slidev-layout.uv-section-divider ol.divider-list li::before {
+  content: counter(seccion);
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #9aa0a6;
+  border: 1px solid #c9cdd1;
+  border-radius: 50%;
+  width: 1.4rem;
+  height: 1.4rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+}
+
+.slidev-layout.uv-section-divider ol.divider-list li.active {
+  color: var(--uv-red-dark);
+  font-weight: 700;
+}
+
+.slidev-layout.uv-section-divider ol.divider-list li.active::before {
+  background: var(--uv-red);
+  border-color: var(--uv-red);
+  color: #fff;
+}
+
+/* ---------- Dos columnas con figura (layout two-cols-figure) ---------- */
+
+.slidev-layout.uv-two-cols-figure .tcf-grid {
+  display: grid;
+  grid-template-columns: var(--tcf-cols, 1.05fr 1fr);
+  gap: 1.6rem;
+  align-items: start;
+}
+
+.slidev-layout.uv-two-cols-figure .tcf-figure {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.55rem;
+  margin: 0;
+}
+
+.slidev-layout.uv-two-cols-figure .tcf-figure img {
+  max-height: var(--tcf-img-max-h, 9.2rem);
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
+}
+
+/* caption: línea en cursiva bajo la(s) figura(s) */
+.slidev-layout.uv-two-cols-figure .tcf-figure em {
+  font-size: 0.78rem;
+  color: var(--uv-gray);
+  text-align: center;
+  display: block;
+  line-height: 1.35;
+}
+
+.slidev-layout.uv-two-cols-figure .tcf-figure p {
+  margin: 0;
+}
+
+/* ---------- Enunciado de objetivo plegado bajo el título ---------- */
+/* Reemplaza los interstitials A–D del guion largo: el enunciado literal del
+   objetivo específico viaja con su primera slide, sin costar una slide propia.
+   Va en el slot default (antes de ::left::), a ancho completo bajo el título. */
+
+/* Compacto a propósito: cada línea que ocupe aquí se la quita a los bullets, y las
+   cuatro slides que lo usan van a 4 bullets justos. Si se agranda, desbordan. */
+.slidev-layout .objective-statement {
+  font-size: 0.72rem;
+  line-height: 1.35;
+  font-style: italic;
+  color: var(--uv-gray);
+  border-left: 3px solid var(--uv-red);
+  padding-left: 0.6rem;
+  margin: -0.6rem 0 0.7rem 0;
+}
+
+.slidev-layout .objective-statement p {
+  margin: 0;
+}
+
+/* ---------- Cuadrícula 2x2 (layout grid-2x2) ---------- */
+
+.slidev-layout.uv-grid-2x2 .grid-boxes {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 0.9rem;
+  height: calc(100% - 4.6rem);
+}
+
+.slidev-layout.uv-grid-2x2 .grid-box {
+  border-radius: 4px;
+  padding: 0.8rem 1rem;
+  font-size: 0.92rem;
+  line-height: 1.45;
+  border-top: 4px solid var(--uv-gray);
+  background: #f6f7f8;
+}
+
+.slidev-layout.uv-grid-2x2 .grid-box p {
+  margin: 0.2rem 0;
+}
+
+.slidev-layout.uv-grid-2x2 .grid-box strong {
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+/* Cuatro acentos sobrios distintos */
+.slidev-layout.uv-grid-2x2 .grid-box.box-1 {
+  border-top-color: var(--uv-red);
+  background: var(--uv-red-tint);
+}
+.slidev-layout.uv-grid-2x2 .grid-box.box-1 strong { color: var(--uv-red-dark); }
+
+.slidev-layout.uv-grid-2x2 .grid-box.box-2 {
+  border-top-color: var(--uv-box-blue);
+  background: #eceff5;
+}
+.slidev-layout.uv-grid-2x2 .grid-box.box-2 strong { color: var(--uv-box-blue); }
+
+.slidev-layout.uv-grid-2x2 .grid-box.box-3 {
+  border-top-color: var(--uv-box-teal);
+  background: #eaf2f0;
+}
+.slidev-layout.uv-grid-2x2 .grid-box.box-3 strong { color: var(--uv-box-teal); }
+
+.slidev-layout.uv-grid-2x2 .grid-box.box-4 {
+  border-top-color: var(--uv-box-ochre);
+  background: #f5f1e6;
+}
+.slidev-layout.uv-grid-2x2 .grid-box.box-4 strong { color: var(--uv-box-ochre); }

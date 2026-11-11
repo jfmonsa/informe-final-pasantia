@@ -16,6 +16,18 @@ Este repositorio contiene el código fuente LaTex de mi informe final de pasant�
 
 ---
 
+## Estructura del repositorio
+
+| Ruta | Contenido |
+|---|---|
+| `informe-final-pasantia-jfmonsa.tex`, `sections/`, `img/`, `utils/`, `bibliografia.bib` | Fuente LaTeX del informe final |
+| `correcciones/` | Observaciones del evaluador, plan de remediación, tabla de atención de observaciones y carta de correcciones |
+| `sustentacion/slides/` | Diapositivas de la sustentación ([Slidev](https://sli.dev)); ver su `README.md` |
+| `sustentacion/demo/demo-paralegales.mp4` | Video de la demostración del sistema usado en la sustentación |
+| `sustentacion/defensa.md`, `sustentacion/plan-diapositivas.md` | Preparación de la defensa y plan del deck |
+
+---
+
 ## Get Started
 
 Este repo se ha modernizado para utilizar contenedores Docker, lo que simplifica el manejo de dependencias y asegura un entorno reproducible para cualquier colaborador. 
@@ -50,5 +62,3 @@ Si prefieres usar otro editor o solo la consola, puedes usar `docker-compose`.
    ```sh
    docker compose run --rm latex-dev /bin/bash
    ```
-
-*(Nota: Los archivos antiguos de instalación local directa aún se conservan en la carpeta `scripts/` como referencia histórica o para instalación sin Docker, pero se recomienda encarecidamente la ruta de Docker).*

@@ -1,13 +1,25 @@
-\subsection{Enfoque y Estrategia de Pruebas}\label{subsec:enfoque-pruebas}
+\subsection{Enfoque y Estrategia de Aseguramiento de Calidad}\label{subsec:enfoque-pruebas}
 
-El alcance de las pruebas está determinado por dos restricciones del contexto: se interviene una plataforma en producción cuya estabilidad no puede comprometerse y el equipo de desarrollo es reducido. Por ello la estrategia no busca una cobertura uniforme de todo el sistema, sino una asignación del esfuerzo de verificación guiada por el riesgo, organizada en capas complementarias a modo de adaptación pragmática de la pirámide de pruebas:
+Conviene precisar de entrada el alcance del término que da nombre a este eje del trabajo. Como se expuso en el marco conceptual, el aseguramiento de calidad no se agota en una batería de pruebas: la norma IEEE 730 lo define como un conjunto de actividades de proceso orientadas a dar confianza de que el producto y el proceso que lo construye cumplen los requisitos establecidos \cite{IEEE730}. Este capítulo se organiza en consecuencia: describe primero los mecanismos que operan a lo largo del ciclo de vida y luego se detiene en la capa de pruebas automatizadas, sin equipararlas al aseguramiento en su conjunto.
+
+El alcance de esos mecanismos está determinado por dos restricciones del contexto: se interviene una plataforma en producción cuya estabilidad no puede comprometerse y el equipo de desarrollo es reducido. Por ello la estrategia no busca una cobertura uniforme de todo el sistema, sino una asignación del esfuerzo de verificación guiada por el riesgo, apoyada en mecanismos complementarios que actúan en momentos distintos del ciclo de vida:
 
 \begin{itemize}
-  \item \textbf{Pruebas unitarias automatizadas:} concentradas en las Reglas de Seguridad de Firestore —el mecanismo de control de acceso a los datos y, por tanto, el punto donde un error tendría consecuencias directas sobre la confidencialidad de la información—, ejecutadas de forma automática y repetible sobre un entorno emulado.
+  \item \textbf{Análisis estático y formateo automático:} ESLint, Stylelint y Prettier verifican el código modificado, tanto en el entorno local como en el \textit{pipeline} de integración continua.
 
-  \item \textbf{Validación manual sistemática:} ejercida sobre el entorno de \textit{staging}, donde se verifican de extremo a extremo los flujos funcionales críticos —incluida la interacción entre \textit{frontend}, servicios del lado del servidor e integraciones externas— antes de promover los cambios a producción.
+  \item \textbf{Verificación de convenciones del historial:} Commitlint valida que cada mensaje de \textit{commit} respete el estándar \textit{Conventional Commits}, preservando la trazabilidad del historial de cambios.
 
-  \item \textbf{Evaluación exploratoria de pruebas \textit{end-to-end}:} una iniciativa que valoró automatizar los flujos de interfaz pero que, por razones de costo-beneficio, no se consolidó.
+  \item \textbf{\textit{Hooks} locales de control de versiones:} gestionados con Lefthook, constituyen la primera barrera de validación y actúan antes de que el cambio ingrese al historial (\autoref{subsec:sdlc}).
+
+  \item \textbf{Pruebas unitarias automatizadas:} concentradas en las Reglas de Seguridad de Firestore (el mecanismo de control de acceso a los datos y, por tanto, el punto donde un error tendría consecuencias directas sobre la confidencialidad de la información), con dieciséis casos ejecutados de forma automática y repetible sobre un entorno emulado. A ellas se suma, como línea base preexistente del repositorio de servicios y cuya autoría corresponde mayoritariamente a otros miembros del equipo de la empresa, un conjunto de pruebas unitarias en Go sobre los paquetes compartidos del \textit{backend}.
+
+  \item \textbf{Compuertas de integración:} el \textit{pipeline} de integración continua se dispara ante cada \textit{pull request} dirigida a la rama de integración y encadena la validación estática diferencial y la ejecución de la \textit{suite} de reglas de seguridad, de modo que el fallo de cualquiera de las dos interrumpe el \textit{workflow}; un control adicional restringe el flujo de ramas hacia producción (\autoref{subsec:pruebas-ci}).
+
+  \item \textbf{Validación manual sistemática:} ejercida sobre el entorno de \textit{staging} antes de promover los cambios a producción; allí se verifican de extremo a extremo los flujos funcionales críticos, incluida la interacción entre \textit{frontend}, servicios del lado del servidor e integraciones externas.
+
+  \item \textbf{Control de calidad posdespliegue:} el subsistema de observabilidad descrito en el capítulo de desarrollo cumple una función de aseguramiento sobre el sistema ya desplegado, al permitir detectar degradaciones y diagnosticar fallos en producción, en la línea de los principios de \textit{Site Reliability Engineering} \cite{Beyer2016}.
 \end{itemize}
 
-En consonancia con el enfoque de evaluación de resultados (\autoref{subsec:enfoque-resultados}), la evidencia de este capítulo es demostrativa y artefactual —ejecuciones de la \textit{suite}, casos documentados y capturas del comportamiento observado—, no de carácter experimental.
+La concentración de la capa de pruebas automatizadas responde a un criterio de riesgo antes que de volumen. Las Reglas de Seguridad reúnen simultáneamente el mayor impacto potencial de un fallo, dado que un error expone datos de usuarios reales, y la menor volatilidad, dado que cambian con poca frecuencia frente a la interfaz gráfica. Esa combinación de impacto alto y volatilidad baja es la que ofrece el mejor retorno por caso de prueba escrito en un equipo reducido, y explica que la automatización se haya construido allí en lugar de distribuirse de manera uniforme. Las consecuencias de esta decisión, junto con aquello que deliberadamente queda fuera, se declaran en el apartado de limitaciones (\autoref{subsec:sintesis-pruebas}).
+
+En consonancia con el enfoque de evaluación de resultados (\autoref{subsec:enfoque-resultados}), la evidencia de este capítulo es demostrativa y artefactual, no de carácter experimental: ejecuciones de la \textit{suite}, casos documentados y capturas del comportamiento observado.

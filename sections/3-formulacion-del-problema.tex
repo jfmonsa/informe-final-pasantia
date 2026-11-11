@@ -9,15 +9,15 @@ A partir del diagnóstico y la proposición de intervención presentados en el c
 De esta pregunta central se derivan las siguientes subpreguntas, cada una asociada a un eje de intervención del proyecto:
 
 \begin{enumerate}
-  \item \textbf{¿Qué mecanismos del lado del servidor —funciones \textit{serverless} y/o un \textit{Backend-for-Frontend}— permiten reubicar la lógica de negocio crítica fuera del cliente sin requerir la reescritura integral del \textit{frontend} existente ni la sustitución del proveedor de autenticación y persistencia, y bajo qué criterios decidir entre uno u otro?}
+  \item \textbf{¿Qué mecanismos del lado del servidor (funciones \textit{serverless}, un \textit{Backend-for-Frontend} o una combinación de ambos) permiten reubicar la lógica de negocio crítica fuera del cliente sin requerir la reescritura integral del \textit{frontend} existente ni la sustitución del proveedor de autenticación y persistencia, y bajo qué criterios decidir entre uno u otro?}
 
   \item \textbf{¿Cómo estructurar internamente el \textit{frontend} y el \textit{backend} para que los dominios funcionales y las capas técnicas puedan evolucionar de forma independiente, habilitando además la sustitución futura del motor de persistencia sin acoplar dicha decisión a la lógica de negocio?}
 
   \item \textbf{¿Bajo qué criterios decidir qué responsabilidades permanecen en Firebase y cuáles se trasladan o se construyen sobre AWS, de modo que la fragmentación arquitectónica se reduzca sin acometer una migración disruptiva del proveedor de nube?}
 
-  \item \textbf{¿Cómo dotar al sistema de capacidades de observabilidad y telemetría transversales que permitan diagnosticar fallos y degradaciones a través de componentes heterogéneos —BFF, funciones \textit{serverless} e integraciones con proveedores externos como la Rama Judicial—, correlacionando eventos a lo largo de todo el flujo de ejecución?}
+  \item \textbf{¿Cómo dotar al sistema de capacidades de observabilidad y telemetría transversales que permitan diagnosticar fallos y degradaciones a través de componentes heterogéneos, entre ellos el BFF, las funciones \textit{serverless} y las integraciones con proveedores externos como la Rama Judicial, correlacionando eventos a lo largo de todo el flujo de ejecución?}
 
-  \item \textbf{¿Qué prácticas de aseguramiento de calidad deben automatizarse a lo largo del ciclo de vida del desarrollo —desde los \textit{hooks} locales hasta la integración continua y las pruebas automatizadas— para sostener la velocidad de cambio sin degradar la confiabilidad ni la seguridad del sistema?}
+  \item \textbf{¿Qué prácticas de aseguramiento de calidad deben automatizarse a lo largo del ciclo de vida del desarrollo, desde los \textit{hooks} locales hasta la integración continua y las pruebas automatizadas, para sostener la velocidad de cambio sin degradar la confiabilidad ni la seguridad del sistema?}
 \end{enumerate}
 
 Estas preguntas guían el desarrollo del proyecto y, en conjunto, articulan la estructura del capítulo de desarrollo, donde cada uno de estos ejes encuentra una respuesta concreta en términos de decisiones técnicas, componentes construidos y prácticas adoptadas.
