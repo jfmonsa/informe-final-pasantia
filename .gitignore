@@ -310,6 +310,3 @@ TSWLatexianTemp*
 *.glstex
 
 node_modules/
-
-# Sustentación: tomas descartadas de la demo (solo se versiona el video final)
-sustentacion/demo/descartes/
